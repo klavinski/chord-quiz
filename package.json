@@ -1,0 +1,34 @@
+{
+  "name": "capacitor-app",
+  "version": "1.0.0",
+  "description": "An Amazing Capacitor App",
+  "keywords": [
+    "capacitor",
+    "mobile"
+  ],
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html && cap sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^3.0.0",
+    "@capacitor/core": "next",
+    "@capacitor/splash-screen": "latest",
+    "inter-ui": "^3.18.1",
+    "parcel-bundler": "^1.12.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "vexflow": "^3.0.9"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "next",
+    "@parcel/transformer-image": "^2.0.0-beta.3.1",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "@types/vexflow": "^3.0.0",
+    "sass": "^1.34.1",
+    "typescript": "^4.3.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

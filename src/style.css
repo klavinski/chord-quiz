@@ -1,0 +1,5 @@
+@import "inter-ui/inter.css";
+
+* { font-family: "Inter", "system-ui"; }
+
+body { background-color: white; font-size: 5vmin; }

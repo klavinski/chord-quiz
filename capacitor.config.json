@@ -1,0 +1,11 @@
+{
+  "appId": "com.kamil.piano",
+  "appName": "piano",
+  "bundledWebRuntime": true,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
