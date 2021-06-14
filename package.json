@@ -14,10 +14,13 @@
     "@capacitor/android": "^3.0.0",
     "@capacitor/core": "next",
     "@capacitor/splash-screen": "latest",
+    "@tonaljs/tonal": "^4.6.0",
+    "cordova-plugin-midi-sender-android": "^0.1.8",
     "inter-ui": "^3.18.1",
     "parcel-bundler": "^1.12.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-tippy": "^1.4.0",
     "vexflow": "^3.0.9"
   },
   "devDependencies": {

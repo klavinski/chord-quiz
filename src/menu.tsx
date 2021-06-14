@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Icon } from "./icon";
+import { TimeMenu } from "./time";
+import { TonicMenu } from "./tonic";
 
 export const Menu = () => {
 
@@ -9,8 +11,12 @@ export const Menu = () => {
         justifyContent: "space-around",
         padding: "5vmin 0"
     } }>
-        <Icon type="metronome"/>
-        <Icon type="chord"/>
+        <TimeMenu>
+            <Icon type="metronome"/>
+        </TimeMenu>
+        <TonicMenu>
+            <Icon type="tonic"/>
+        </TonicMenu>
         <Icon type="3"/>
         <Icon type="maj"/>
         <Icon type="min"/>

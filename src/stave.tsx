@@ -3,28 +3,22 @@ import { useEffect, useRef } from "react";
 import Vex from "vexflow";
 const VF = Vex.Flow;
 
-export const Stave = () => {
+export const Stave = ( { chord }: { chord: string[] }) => {
 
     const div = useRef<HTMLDivElement>();
     useEffect( () => {
 
+        const VF = Vex.Flow;
         const renderer = new VF.Renderer( div.current, VF.Renderer.Backends.SVG );
-        renderer.resize( 120, 200 );
-        const context = renderer.getContext();
-        const stave = new VF.Stave( 0, 0, 110 );
-        stave.addClef( "treble" );
-        stave.setContext(context).draw();
+        const vf = new VF.Factory( { renderer });
+        const score = vf.EasyScore();
+        const system = vf.System();
+        system.addStave( {
+        voices: [ score.voice( score.notes( "(" + chord.join( " " ) + ")/w" ), {} ) ]
+        } ).addClef( "treble" );
+        vf.draw();
+        return () => { div.current.innerHTML = "" };
 
-        const notes = new VF.StaveNote( { clef: "treble", keys: [ "c/4", "e/4", "e/4", "g/4" ], duration: "w" } )
-            .addAccidental( 1, new VF.Accidental( "b" ) );
-        const voice = new VF.Voice( {} );
-        voice.addTickables( [ notes ] );
-        
-        new VF.Formatter().joinVoices( [ voice ] ).format( [ voice ], 110 );
-        
-        // Render voice
-        voice.draw(context, stave);
-        
-    }, [] );
+    }, [ chord ] );
     return <div ref={ div }/>;
 }

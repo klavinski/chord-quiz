@@ -5,12 +5,12 @@ const previousWhite = note => [ 0, 5 ].includes( note % 12 ) ? note - 1 : note -
 const marginsLeft = { 1: "-21px", 3: "-11px", 6: "-23px", 8: "-16px", 10: "-8px" };
 const marginsRight = { 1: "-41px", 3: "-51px", 6: "-39px", 8: "-46px", 10: "-54px" };
 
-const Key = ( { chord, note: key }: { chord: Set<number>, note: number } ) => {
+const Key = ( { chord, note: key }: { chord: number[], note: number } ) => {
 
     if ( key % 12 in imgs )
 
         return <>
-            { chord.has( key ) && ! chord.has( previousWhite( key ) ) &&
+            { chord.includes( key ) && ! chord.includes( previousWhite( key ) ) &&
             <img
                 src={ imgs[ [ 0, 5 ].includes( key % 12 ) ? "long" : "short" ] }
                 style={ {
@@ -25,10 +25,11 @@ const Key = ( { chord, note: key }: { chord: Set<number>, note: number } ) => {
                 src={ imgs[ key % 12 ] }
                 style={ {
                     verticalAlign: "top",
-                    height: chord.has( key ) ? "335px" : "330px",
+                    height: chord.includes( key ) ? "335px" : "330px",
                     width: "55px",
                     position: "relative",
-                    zIndex: 1
+                    zIndex: 1,
+                    filter: chord.includes( key ) ? "sepia(100%) hue-rotate(165deg) brightness(80%) saturate(400%)" : "none"
                 } }
             />
         </>;
@@ -40,13 +41,14 @@ const Key = ( { chord, note: key }: { chord: Set<number>, note: number } ) => {
                 marginLeft: marginsLeft[ key % 12 ],
                 zIndex: 0,
                 width: "32px",
-                height: chord.has( key ) ? "235px" : "230px",
+                height: chord.includes( key ) ? "235px" : "230px",
                 verticalAlign: "top",
-                position: "relative"
+                position: "relative",
+                filter: chord.includes( key ) ? "sepia(100%) hue-rotate(150deg) brightness(170%) saturate(200%) contrast(180%)" : "none"
             } }
         />
         <img
-            src={ imgs[ ( chord.has( key ) ? "on" : "off" ) + " " + ( chord.has( key + 1 ) ? "on" : "off" ) ] }
+            src={ imgs[ ( chord.includes( key ) ? "on" : "off" ) + " " + ( chord.includes( key + 1 ) ? "on" : "off" ) ] }
             style={ {
                 marginLeft: "-2px",
                 marginRight: marginsRight[ key % 12 ],
@@ -60,10 +62,10 @@ const Key = ( { chord, note: key }: { chord: Set<number>, note: number } ) => {
     </>;
 }
 
-export const Keyboard = ( { chord }: { chord: Set<number> } ) => {
+export const Keyboard = ( { chord }: { chord: number[] } ) => {
 
     return <div>
-        { [ ...new Array( 26 ) ].map( ( _, note ) => <Key key={ note } note={ note + 3 } chord={ chord }/> ) }
+        { [ ...new Array( 26 ) ].map( ( _, note ) => <Key key={ note } note={ note + 51 } chord={ chord }/> ) }
     </div>;
 
 }
