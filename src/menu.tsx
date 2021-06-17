@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Icon } from "./icon";
+import { InversionMenu } from "./inversion";
 import { TimeMenu } from "./time";
 import { TonicMenu } from "./tonic";
 import { TriadMenu } from "./triad";
@@ -24,7 +25,9 @@ export const Menu = () => {
         <Icon type="maj"/>
         <Icon type="min"/>
         <Icon type="dim"/>
-        <Icon type="xy"/>
+        <InversionMenu>
+            <Icon type="xy"/>
+        </InversionMenu>
         <Icon type="eye"/>
         <Icon type="question"/>
         <Icon type="book"/>

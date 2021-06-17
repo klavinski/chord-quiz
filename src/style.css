@@ -4,5 +4,5 @@
 
 body { background-color: white; font-size: 5vmin; }
 
-.grid { display: grid; justify-content: center; align-items: center; }
+.grid { display: grid; justify-content: center; align-items: center; grid-template-rows: auto; }
 .grid > * { text-align: center; }

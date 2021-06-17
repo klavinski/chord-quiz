@@ -14,7 +14,8 @@ export const generateChord = ( configuration: typeof initialConfiguration ) => {
     const inversion = inversions[ Math.floor( Math.random() * inversions.length ) ];
     const root = canonicChord.notes[ inversion ];
     const chord3 = Chord.getChord( chordType, tonic + 3, root + 3 );
-    const chord = Midi.toMidi( chord3.notes[ 0 ] ) >= 52 ? chord3
+    const averageNote = ( Midi.toMidi( chord3.notes[ 0 ] ) + Midi.toMidi( chord3.notes[ chord3.notes.length - 1 ] ) ) / 2;
+    const chord = Math.abs( averageNote - 64 ) <= Math.abs( averageNote + 12 - 64 ) ? chord3
         : Chord.getChord( chordType, tonic + 4, root + 4 );
 
     const { Symbol, OtherSymbols } = chords[ chordType ];

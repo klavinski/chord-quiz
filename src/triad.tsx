@@ -16,7 +16,6 @@ export const TriadMenu = ( { children } ) => {
         className="grid"
         style={ {
             gridTemplateColumns: "repeat( 15, 1fr )",
-            gridTemplateRows: "auto",
             boxShadow: "rgba( 0, 0, 0, .2 ) 0px 0px 1rem",
             padding: "2vmin",
             borderRadius: "2vmin",

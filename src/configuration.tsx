@@ -23,7 +23,7 @@ export const initialConfiguration = {
         "B": false,
         "Bb": false
     },
-    inversion: { 0: true, 1: true, 2: true, 3: true },
+    inversion: { 0: true, 1: false, 2: false, 3: false },
     type: Object.fromEntries( Object.keys( chords ).map( chord => [ chord, true ] ) )
 };
 
