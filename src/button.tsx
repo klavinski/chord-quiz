@@ -9,11 +9,12 @@ export const Button = ( { children, gridArea, onClick, selected }: { children, g
         onMouseEnter={ () => setHover( true ) }
         onMouseLeave={ () => setHover( false ) }
         style={ {
-            backgroundColor: selected ? "darkseagreen" : hover ? "lightblue" : "transparent",
+            display: "flex",
+            backgroundColor: selected ? "rgb(90, 211, 160)" : hover ? "rgb(39, 192, 239)" : "transparent",
             boxShadow: "",
-            cursor: hover ? "pointer": "default",
-            textAlign: "center",
-            gridArea: gridArea ?? ""
+            cursor: "pointer",
+            gridArea: gridArea ?? "",
+            justifyContent: "center"
         } }
     >
         { children }

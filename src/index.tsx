@@ -4,7 +4,7 @@ import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import { render } from "react-dom";
 import { configurationContext, ConfigurationProvider, initialConfiguration } from "./configuration";
-import { generateChord } from "./chord";
+import { generateChord } from "./chordGenerator";
 import { Keyboard } from "./keyboard";
 import { Stave } from './stave';
 import { Menu } from "./menu";
@@ -26,8 +26,8 @@ const App = () => {
         <ChordResetter setChord={ setChord }/>
         <Menu/>
         <Stave chord={ chord.notes }/>
-        <chord.Encoding/>
-        <chord.AlternateEncodings/>
+        <chord.Symbol/> 
+        <chord.OtherSymbols/>
         <Keyboard chord={ chord.midiNotes }/>
     </ConfigurationProvider>;
 }

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Icon } from "./icon";
 import { TimeMenu } from "./time";
 import { TonicMenu } from "./tonic";
+import { TriadMenu } from "./triad";
 
 export const Menu = () => {
 
@@ -17,7 +18,9 @@ export const Menu = () => {
         <TonicMenu>
             <Icon type="tonic"/>
         </TonicMenu>
-        <Icon type="3"/>
+        <TriadMenu>
+            <Icon type="3"/>
+        </TriadMenu>
         <Icon type="maj"/>
         <Icon type="min"/>
         <Icon type="dim"/>

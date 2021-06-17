@@ -44,7 +44,7 @@ const Key = ( { chord, note: key }: { chord: number[], note: number } ) => {
                 height: chord.includes( key ) ? "235px" : "230px",
                 verticalAlign: "top",
                 position: "relative",
-                filter: chord.includes( key ) ? "sepia(100%) hue-rotate(150deg) brightness(170%) saturate(200%) contrast(180%)" : "none"
+                filter: chord.includes( key ) ? "sepia(100%) hue-rotate(150deg) brightness(250%) contrast(180%)" : "none"
             } }
         />
         <img

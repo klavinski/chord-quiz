@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createContext, useState } from "react";
+import { chords } from "./chordTable";
 
 export const initialConfiguration = {
     time: 3,
@@ -21,7 +22,9 @@ export const initialConfiguration = {
         "A#": false,
         "B": false,
         "Bb": false
-    }
+    },
+    inversion: { 0: true, 1: true, 2: true, 3: true },
+    type: Object.fromEntries( Object.keys( chords ).map( chord => [ chord, true ] ) )
 };
 
 export const configurationContext = createContext( null );

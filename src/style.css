@@ -3,3 +3,6 @@
 * { font-family: "Inter", "system-ui"; }
 
 body { background-color: white; font-size: 5vmin; }
+
+.grid { display: grid; justify-content: center; align-items: center; }
+.grid > * { text-align: center; }
