@@ -1,6 +1,6 @@
 {
-    "name": "App",
-    "short_name": "App",
+    "name": "Chord quiz",
+    "short_name": "Chord",
     "start_url": "index.html",
     "display": "standalone",
     "icons": [{

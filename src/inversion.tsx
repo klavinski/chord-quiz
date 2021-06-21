@@ -59,7 +59,7 @@ export const InversionMenu = ( { children } ) => {
                 <Button
                     key={ "label" + inversion }
                     gridArea={ "2 / " + ( 4 + parseInt( inversion ) * 3 ) + " / span 1 / span 3" }
-                    onClick={ () => setConfiguration( { ...configuration, inversion: { ...configuration.inversion, [ inversion ]: ! configuration.inversion[ inversion ] } } ) }
+                    onClick={ () => ( ! configuration.inversion[ inversion ] || Object.values( configuration.inversion ).filter( inversion => inversion ).length > 1 ) && setConfiguration( { ...configuration, inversion: { ...configuration.inversion, [ inversion ]: ! configuration.inversion[ inversion ] } } ) }
                     selected={ configuration.inversion[ inversion ] }
                 >
                     { [ <>Fundamental state</>, <>1<sup>st</sup> inversion</>, <>2<sup>nd</sup> inversion</>, <span>3<sup>rd</sup> (4 notes only)</span> ][ inversion ] }

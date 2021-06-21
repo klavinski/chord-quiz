@@ -8,23 +8,14 @@ import { generateChord } from "./chordGenerator";
 import { Keyboard } from "./keyboard";
 import { Stave } from './stave';
 import { Menu } from "./menu";
-
-const ChordResetter = ( { setChord } ) => {
-
-    const [ configuration ] = useContext( configurationContext );
-    useEffect( () => {
-        const resetChord = setInterval( () => setChord( generateChord( configuration ) ), configuration.time * 1000 );
-        return () => clearInterval( resetChord );
-    }, [ configuration ] );
-    return <></>;
-}
+import { Session } from "./session";
 
 const App = () => {
 
     const [ chord, setChord ] = useState( generateChord( initialConfiguration ) );
     return <ConfigurationProvider>
-        <ChordResetter setChord={ setChord }/>
         <Menu/>
+        <Session setChord={ setChord }/>
         <Stave chord={ chord.notes }/>
         <chord.Symbol/> 
         <chord.OtherSymbols/>

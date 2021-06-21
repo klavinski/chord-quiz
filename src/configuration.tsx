@@ -4,6 +4,7 @@ import { chords } from "./chordTable";
 
 export const initialConfiguration = {
     time: 3,
+    session: null,
     tonic: {
         "C": true,
         "C#": false,
