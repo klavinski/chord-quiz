@@ -23,7 +23,7 @@ export const Session = ( { setChord } ) => {
 
         }
 
-    }, [ configuration.session, configuration.time ] );
+    }, [ configuration ] );
 
     return <>{
         Array.isArray( configuration.session ) ?
