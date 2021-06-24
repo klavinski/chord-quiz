@@ -19,7 +19,8 @@ export const InversionMenu = ( { children } ) => {
             boxShadow: "rgba( 0, 0, 0, .2 ) 0px 0px 1rem",
             padding: "2vmin",
             borderRadius: "2vmin",
-            backgroundColor: "white"
+            backgroundColor: "white",
+            margin: "0 2vmin",
         } }
     >
         <Button

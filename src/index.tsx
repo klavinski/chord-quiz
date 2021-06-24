@@ -1,9 +1,9 @@
 import "./style.css";
 
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { render } from "react-dom";
-import { configurationContext, ConfigurationProvider, initialConfiguration } from "./configuration";
+import {  ConfigurationProvider, initialConfiguration } from "./configuration";
 import { generateChord } from "./chordGenerator";
 import { Keyboard } from "./keyboard";
 import { Stave } from './stave';

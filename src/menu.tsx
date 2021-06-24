@@ -4,6 +4,9 @@ import { InversionMenu } from "./inversion";
 import { TimeMenu } from "./time";
 import { TonicMenu } from "./tonic";
 import { TriadMenu } from "./triad";
+import { Major4Menu } from "./major4";
+import { Minor4Menu } from "./minor4";
+import { Dim4Menu } from "./dim4";
 
 export const Menu = () => {
 
@@ -22,9 +25,15 @@ export const Menu = () => {
         <TriadMenu>
             <Icon type="3"/>
         </TriadMenu>
-        <Icon type="maj"/>
-        <Icon type="min"/>
-        <Icon type="dim"/>
+        <Major4Menu>
+            <Icon type="maj"/>
+        </Major4Menu>
+        <Minor4Menu>
+            <Icon type="min"/>
+        </Minor4Menu>
+        <Dim4Menu>
+            <Icon type="dim"/>
+        </Dim4Menu>
         <InversionMenu>
             <Icon type="xy"/>
         </InversionMenu>

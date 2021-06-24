@@ -34,5 +34,10 @@ export const major4_1 = {
 export const major4_2 = {};
 export const minor4_1 = {};
 export const minor4_2 = {};
-export const dim4 = {};
+export const dim4 = {
+    dim7: {
+        Symbol: ( { root, tonic } ) => <>{ encode( tonic ) }°{ root !== tonic && <>/{ encode( root ) }</> }</>,
+        OtherSymbols: ( { root, tonic } ) => <>{ encode( tonic ) }dim<sup>7</sup>{ root !== tonic && <>/{ encode( root ) }</> } − { encode( tonic ) }<sup>7−</sup>{ root !== tonic && <>/{ encode( root ) }</> }</>,
+    }
+};
 export const chords = { ...major3, ...minor3, ...major4_1, ...major4_2, ...minor4_1, ...minor4_2, ...dim4 };

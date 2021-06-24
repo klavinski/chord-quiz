@@ -6,9 +6,9 @@ import { Chord }from "@tonaljs/tonal";
 import { configurationContext, initialConfiguration } from "./configuration";
 import { Button } from "./button";
 import { Stave } from "./stave";
-import { chords, major3, minor3 } from "./chordTable";
+import { chords, major4_1, major4_2 } from "./chordTable";
 
-export const TriadMenu = ( { children } ) => {
+export const Major4Menu = ( { children } ) => {
 
     const tooltip = useRef( null );
     const [ configuration, setConfiguration ] = useContext( configurationContext );
@@ -21,24 +21,24 @@ export const TriadMenu = ( { children } ) => {
             borderRadius: "2vmin",
             backgroundColor: "white",
             maxHeight: "calc( 100vh - 25vmin )",
-            maxWidth: "calc( 100vw - 7vmin )",
+            maxWidth: "calc( 100vw - 7vmin )",margin: "0 2vmin",
             overflow: "auto"
         } }
     >
         <div
             style={ { gridArea:"1 / 1 / span 1 / span 3" } }
         >
-            MAJOR<br/>3 notes
+            MAJOR<br/>4 notes
         </div>
         <Button
             gridArea="1 / 4 / span 1 / span 4"
-            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major3, ...minor3 } ).map( type => [ type, initialConfiguration.type[ type ] ] ) ) } } ) }
+            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major4_1, ...major4_2 } ).map( type => [ type, initialConfiguration.type[ type ] ] ) ), M: configuration.type.M || Object.keys( configuration.type ).filter( type => configuration.type[ type ] ).every( type => Object.keys( major4_1 ).includes( type ) || Object.keys( major4_2 ).includes( type ) ) } } ) }
         >
             RESET
         </Button>
         <Button
             gridArea="1 / 8 / span 1 / span 4"
-            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major3, ...minor3 } ).map( type => [ type, true ] ) ) } } ) }
+            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major4_1, ...major4_2 } ).map( type => [ type, true ] ) ) } } ) }
         >
             ALL
         </Button>
@@ -64,7 +64,7 @@ export const TriadMenu = ( { children } ) => {
             Other used symbols
         </div>
         {
-            Object.keys( major3 ).map( ( chordType, i ) => {
+            Object.keys( major4_1 ).map( ( chordType, i ) => {
                 const { Symbol, OtherSymbols } = chords[ chordType ];
             return <>
                 <div
@@ -91,31 +91,26 @@ export const TriadMenu = ( { children } ) => {
         }
         <div style={ { gridArea:"5 / 1 / span 1 / span 15" } } > </div>
         <div
-            style={ { gridArea:"6 / 1 / span 1 / span 3" } }
-        >
-            minor<br/>3 notes
-        </div>
-        <div
-            style={ { gridArea: "7 / 1 / span 1 / span 3" } }
+            style={ { gridArea: "6 / 1 / span 1 / span 3" } }
         >
             Symbol (with C)
         </div>
         <div
-            style={ { gridArea: "8 / 1 / span 1 / span 3" } }
+            style={ { gridArea: "7 / 1 / span 1 / span 3" } }
         >
             Example (with C)
         </div>
         <div
-            style={ { gridArea: "9 / 1 / span 1 / span 3" } }
+            style={ { gridArea: "8 / 1 / span 1 / span 3" } }
         >
             Other used symbols
         </div>
         {
-            Object.keys( minor3 ).map( ( chordType, i ) => {
+            Object.keys( major4_2 ).map( ( chordType, i ) => {
                 const { Symbol, OtherSymbols } = chords[ chordType ];
             return <>
                 <div
-                    style={ { gridArea: `7 / ${ 4 + 3 * i } / span 1 / span 3` } }
+                    style={ { gridArea: `6 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <Button
                         onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
@@ -125,12 +120,12 @@ export const TriadMenu = ( { children } ) => {
                     </Button>
                 </div>
                 <div
-                    style={ { gridArea: `8 / ${ 4 + 3 * i } / span 1 / span 3` } }
+                    style={ { gridArea: `7 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <Stave chord={ Chord.getChord( chordType, "C4", "C4" ).notes }/>
                 </div>
                 <div
-                    style={ { gridArea: `9 / ${ 4 + 3 * i } / span 1 / span 3` } }
+                    style={ { gridArea: `8 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <OtherSymbols root="C" tonic="C"/>
                 </div>
