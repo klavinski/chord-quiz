@@ -19,7 +19,10 @@ export const TriadMenu = ( { children } ) => {
             boxShadow: "rgba( 0, 0, 0, .2 ) 0px 0px 1rem",
             padding: "2vmin",
             borderRadius: "2vmin",
-            backgroundColor: "white"
+            backgroundColor: "white",
+            maxHeight: "calc( 100vh - 25vmin )",
+            maxWidth: "calc( 100vw - 7vmin )",
+            overflow: "auto"
         } }
     >
         <div
@@ -29,7 +32,7 @@ export const TriadMenu = ( { children } ) => {
         </div>
         <Button
             gridArea="1 / 4 / span 1 / span 4"
-            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major3, ...minor3 } ).map( type => [ type, false ] ) ), maj: true } } ) }
+            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major3, ...minor3 } ).map( type => [ type, initialConfiguration.type[ type ] ] ) ) } } ) }
         >
             RESET
         </Button>
@@ -67,7 +70,12 @@ export const TriadMenu = ( { children } ) => {
                 <div
                     style={ { gridArea: `2 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
-                    <Symbol root="C" tonic="C"/>
+                    <Button
+                        onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
+                        selected={ configuration.type[ chordType ] }
+                    >
+                        <Symbol root="C" tonic="C"/>
+                    </Button>
                 </div>
                 <div
                     style={ { gridArea: `3 / ${ 4 + 3 * i } / span 1 / span 3` } }
@@ -76,6 +84,53 @@ export const TriadMenu = ( { children } ) => {
                 </div>
                 <div
                     style={ { gridArea: `4 / ${ 4 + 3 * i } / span 1 / span 3` } }
+                >
+                    <OtherSymbols root="C" tonic="C"/>
+                </div>
+            </> } )
+        }
+        <div style={ { gridArea:"5 / 1 / span 1 / span 15" } } > </div>
+        <div
+            style={ { gridArea:"6 / 1 / span 1 / span 3" } }
+        >
+            minor<br/>3 notes
+        </div>
+        <div
+            style={ { gridArea: "7 / 1 / span 1 / span 3" } }
+        >
+            Symbol (with C)
+        </div>
+        <div
+            style={ { gridArea: "8 / 1 / span 1 / span 3" } }
+        >
+            Example (with C)
+        </div>
+        <div
+            style={ { gridArea: "9 / 1 / span 1 / span 3" } }
+        >
+            Other used symbols
+        </div>
+        {
+            Object.keys( minor3 ).map( ( chordType, i ) => {
+                const { Symbol, OtherSymbols } = chords[ chordType ];
+            return <>
+                <div
+                    style={ { gridArea: `7 / ${ 4 + 3 * i } / span 1 / span 3` } }
+                >
+                    <Button
+                        onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
+                        selected={ configuration.type[ chordType ] }
+                    >
+                        <Symbol root="C" tonic="C"/>
+                    </Button>
+                </div>
+                <div
+                    style={ { gridArea: `8 / ${ 4 + 3 * i } / span 1 / span 3` } }
+                >
+                    <Stave chord={ Chord.getChord( chordType, "C4", "C4" ).notes }/>
+                </div>
+                <div
+                    style={ { gridArea: `9 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <OtherSymbols root="C" tonic="C"/>
                 </div>

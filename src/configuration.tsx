@@ -25,7 +25,7 @@ export const initialConfiguration = {
         "Bb": false
     },
     inversion: { 0: true, 1: false, 2: false, 3: false },
-    type: Object.fromEntries( Object.keys( chords ).map( chord => [ chord, true ] ) )
+    type: { ...Object.fromEntries( Object.keys( chords ).map( chord => [ chord, false ] ) ), M: true }
 };
 
 export const configurationContext = createContext( null );

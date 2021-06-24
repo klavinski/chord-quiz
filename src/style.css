@@ -2,7 +2,7 @@
 
 * { font-family: "Inter", "system-ui"; }
 
-body { background-color: white; font-size: 5vmin; }
+body { background-color: white; font-size: 5vmin; overflow: hidden; }
 
 .grid { display: grid; justify-content: center; align-items: center; grid-template-rows: auto; }
 .grid > * { text-align: center; }

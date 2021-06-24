@@ -17,6 +17,8 @@ export const Stave = ( { chord }: { chord: string[] } ) => {
         voices: [ score.voice( score.notes( "(" + chord.join( " " ) + ")/w" ), {} ) ]
         } ).addClef( "treble" );
         vf.draw();
+        div.current.querySelector( "svg" ).style.width = "25vmin";
+        div.current.querySelector( "svg" ).style.height = "25vmin";
         return () => { div.current.innerHTML = "" };
 
     }, [ chord ] );
