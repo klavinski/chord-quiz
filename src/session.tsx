@@ -14,7 +14,7 @@ export const Session = ( { setChord } ) => {
         if ( Array.isArray( configuration.session ) && configuration.time !== "M" ) {
             const timer = setInterval( () => setTimeLeft( timeLeft => {
                 if ( timeLeft === 0 ) {
-                    setChord( generateChord( configuration ) );
+                    setChord( generateChord( configuration, setConfiguration ) );
                     return configuration.time
                 }
                 else return timeLeft - .5;
@@ -28,7 +28,7 @@ export const Session = ( { setChord } ) => {
     return <>{
         Array.isArray( configuration.session ) ?
             <Button
-                onClick={ () => setConfiguration( configuration => ( { ...configuration, session: null } ) ) }
+                onClick={ () => setConfiguration( configuration => ( { ...configuration, session: null, lastLearnChordIndex: null } ) ) }
             >
                 STOP
             </Button>:
@@ -38,13 +38,13 @@ export const Session = ( { setChord } ) => {
                 START
             </Button>
     }{
-        configuration.time === "Man" && Array.isArray( configuration.session ) &&
+        configuration.time === "Man." && Array.isArray( configuration.session ) &&
             <Button
-                onClick={ () => setChord( generateChord( configuration ) ) }
+                onClick={ () => setChord( generateChord( configuration, setConfiguration ) ) }
             >
                 NEXT
             </Button>
     }{
-        configuration.time === "Man" ? "M" : Math.floor( timeLeft )
+        configuration.time === "Man." ? "M" : Math.floor( timeLeft )
     }</>;
 };

@@ -12,7 +12,7 @@ import { Session } from "./session";
 
 const App = () => {
 
-    const [ chord, setChord ] = useState( generateChord( initialConfiguration ) );
+    const [ chord, setChord ] = useState( generateChord( initialConfiguration, configuration => {} ) );
     return <ConfigurationProvider>
         <Menu/>
         <Session setChord={ setChord }/>
