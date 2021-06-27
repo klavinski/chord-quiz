@@ -10,7 +10,7 @@ export const Button = ( { children, gridArea, onClick, selected }: { children, g
         onMouseLeave={ () => setHover( false ) }
         style={ {
             display: "flex",
-            backgroundColor: selected ? "rgb(90, 211, 160)" : hover ? "rgb(39, 192, 239)" : "transparent",
+            backgroundColor: selected ? "rgb(90, 211, 160)" : hover ? "rgb(39, 192, 239)" : "rgba(39, 192, 239, .1)",
             boxShadow: "",
             cursor: "pointer",
             gridArea: gridArea ?? "",

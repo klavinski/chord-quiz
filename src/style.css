@@ -4,5 +4,20 @@
 
 body { background-color: white; font-size: 5vmin; overflow: hidden; }
 
-.grid { display: grid; justify-content: center; align-items: center; grid-template-rows: auto; }
+.grid {
+
+    display: grid;
+    align-items: center;
+    grid-template-rows: auto;
+    gap: 2vmin;
+    box-shadow: rgba( 0, 0, 0, .2 ) 0px 0px 1rem;
+    padding: 2vmin;
+    border-radius: 2vmin;
+    background-color: white;
+    max-width: calc( 100vw - 7vmin );
+    max-height: calc( 100vh - 25vmin );
+    overflow: auto;
+
+}
+
 .grid > * { text-align: center; }

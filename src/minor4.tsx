@@ -14,16 +14,7 @@ export const Minor4Menu = ( { children } ) => {
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     return <Tooltip ref={ tooltip } trigger="click" interactive={ true } html={ <div
         className="grid"
-        style={ {
-            gridTemplateColumns: "repeat( 4, 1fr )",
-            boxShadow: "rgba( 0, 0, 0, .2 ) 0px 0px 1rem",
-            padding: "2vmin",
-            borderRadius: "2vmin",
-            backgroundColor: "white",
-            maxHeight: "calc( 100vh - 25vmin )",
-            maxWidth: "calc( 100vw - 7vmin )",
-            overflow: "auto"
-        } }
+        style={ { gridTemplateColumns: "repeat( 4, 1fr )" } }
     >
         <div
             style={ { gridArea:"1 / 1 / span 1 / span 1" } }
@@ -68,7 +59,7 @@ export const Minor4Menu = ( { children } ) => {
                 const { Symbol, OtherSymbols } = chords[ chordType ];
             return <>
                 <div
-                    style={ { gridArea: `2 / ${ 1 + i } / span 1 / span 1` } }
+                    style={ { gridArea: `2 / ${ 2 + i } / span 1 / span 1` } }
                 >
                     <Button
                         onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
@@ -78,12 +69,12 @@ export const Minor4Menu = ( { children } ) => {
                     </Button>
                 </div>
                 <div
-                    style={ { gridArea: `3 / ${ 1 + i } / span 1 / span 1` } }
+                    style={ { gridArea: `3 / ${ 2 + i } / span 1 / span 1` } }
                 >
                     <Stave chord={ Chord.getChord( chordType, "C4", "C4" ).notes }/>
                 </div>
                 <div
-                    style={ { gridArea: `4 / ${ 1 + i } / span 1 / span 1` } }
+                    style={ { gridArea: `4 / ${ 2 + i } / span 1 / span 1` } }
                 >
                     <OtherSymbols root="C" tonic="C"/>
                 </div>
@@ -110,7 +101,7 @@ export const Minor4Menu = ( { children } ) => {
                 const { Symbol, OtherSymbols } = chords[ chordType ];
             return <>
                 <div
-                    style={ { gridArea: `6 / ${ 1 + i } / span 1 / span 1` } }
+                    style={ { gridArea: `6 / ${ 2 + i } / span 1 / span 1` } }
                 >
                     <Button
                         onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
@@ -120,12 +111,12 @@ export const Minor4Menu = ( { children } ) => {
                     </Button>
                 </div>
                 <div
-                    style={ { gridArea: `7 / ${ 1 + i } / span 1 / span 1` } }
+                    style={ { gridArea: `7 / ${ 2 + i } / span 1 / span 1` } }
                 >
                     <Stave chord={ Chord.getChord( chordType, "C4", "C4" ).notes }/>
                 </div>
                 <div
-                    style={ { gridArea: `8 / ${ 1 + i } / span 1 / span 1` } }
+                    style={ { gridArea: `8 / ${ 2 + i } / span 1 / span 1` } }
                 >
                     <OtherSymbols root="C" tonic="C"/>
                 </div>

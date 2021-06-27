@@ -14,7 +14,7 @@ export const Menu = () => {
         width: "100%",
         display: "flex",
         justifyContent: "space-around",
-        padding: "5vmin 0"
+        padding: "2vmin 0"
     } }>
         <TimeMenu>
             <Icon type="metronome"/>

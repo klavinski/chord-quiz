@@ -15,11 +15,24 @@ const App = () => {
     const [ chord, setChord ] = useState( generateChord( initialConfiguration, configuration => {} ) );
     return <ConfigurationProvider>
         <Menu/>
-        <Session setChord={ setChord }/>
-        <Stave chord={ chord.notes }/>
-        <chord.Symbol/> 
-        <chord.OtherSymbols/>
-        <Keyboard chord={ chord.midiNotes }/>
+        <div
+            style={ { display: "flex" } }
+        >
+            <Session setChord={ setChord }/>
+            <Stave chord={ chord.notes }/>
+            <chord.Symbol/> 
+            <chord.OtherSymbols/>
+        </div>
+        <div
+            style={ {
+                backgroundColor: "black",
+                textAlign: "center",
+                position: "absolute",
+                bottom: 0,
+                marginLeft: "auto"
+            } }>
+            <Keyboard chord={ chord.midiNotes }/>
+        </div>
     </ConfigurationProvider>;
 }
 

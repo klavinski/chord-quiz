@@ -9,20 +9,18 @@ export const TimeMenu = ( { children } ) => {
 
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     return <Tooltip trigger="click" html={ <div
-        style={ {
-            boxShadow: "rgba( 0, 0, 0, .2 ) 0px 0px 1rem",
-            padding: "2vmin",
-            borderRadius: "2vmin",
-            backgroundColor: "white"
-        } }
+        className="grid"
+        style={ { gridTemplateColumns: "repeat( 1, 1fr )" } }
     >
     <Button
+        gridArea="1 / 1 / span 1 / span 1"
         onClick={ () => setConfiguration( { ...configuration, time: initialConfiguration.time } ) }
     >
         Auto
     </Button>{
-        [ 8, 7, 6, 5, 4, 3, 2, 1, "Man." ].map( time =>
+        [ 8, 7, 6, 5, 4, 3, 2, 1 ].map( time =>
             <Button
+                gridArea={ 10 - time + " / 1 / span 1 / span 1" }
                 selected={ configuration.time === time }
                 onClick={ () => setConfiguration( { ...configuration, time } ) }
                 key={ time }
@@ -30,7 +28,16 @@ export const TimeMenu = ( { children } ) => {
                 { time }
             </Button>
         )
-    }<Button
+    }
+    <Button
+        gridArea="1 / 2 / span 1 / span 1"
+        selected={ configuration.time === "M" }
+        onClick={ () => setConfiguration( { ...configuration, time: "M" } ) }
+    >
+        Man.
+    </Button>
+    <Button
+        gridArea="3 / 2 / span 1 / span 1"
         onClick={ () => setConfiguration( { ...configuration, lastLearnChordIndex: typeof configuration.lastLearnChordIndex === "number" ? null : -1 } ) }
         selected={ typeof configuration.lastLearnChordIndex === "number" }
     >

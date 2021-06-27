@@ -12,13 +12,7 @@ export const TonicMenu = ( { children } ) => {
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     return <Tooltip ref={ tooltip } trigger="click" interactive={ true } html={ <div
         className="grid"
-        style={ {
-            gridTemplateColumns: "repeat( 6, 1fr )",
-            boxShadow: "rgba( 0, 0, 0, .2 ) 0px 0px 1rem",
-            padding: "2vmin",
-            borderRadius: "2vmin",
-            backgroundColor: "white"
-        } }
+        style={ { gridTemplateColumns: "repeat( 6, 1fr )" } }
     >
         <Button
             gridArea="1 / 1 / span 1 / span 3"

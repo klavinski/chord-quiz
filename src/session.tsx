@@ -38,13 +38,13 @@ export const Session = ( { setChord } ) => {
                 START
             </Button>
     }{
-        configuration.time === "Man." && Array.isArray( configuration.session ) &&
+        configuration.time === "M" && Array.isArray( configuration.session ) &&
             <Button
                 onClick={ () => setChord( generateChord( configuration, setConfiguration ) ) }
             >
                 NEXT
             </Button>
     }{
-        configuration.time === "Man." ? "M" : Math.floor( timeLeft )
+        configuration.time === "M" ? "M" : Math.floor( timeLeft )
     }</>;
 };
