@@ -62,7 +62,7 @@ export const TriadMenu = ( { children } ) => {
                     style={ { gridArea: `2 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <Button
-                        onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
+                        onClick={ () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) }
                         selected={ configuration.type[ chordType ] }
                     >
                         <Symbol root="C" tonic="C"/>
@@ -109,7 +109,7 @@ export const TriadMenu = ( { children } ) => {
                     style={ { gridArea: `7 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <Button
-                        onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
+                        onClick={ () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) }
                         selected={ configuration.type[ chordType ] }
                     >
                         <Symbol root="C" tonic="C"/>

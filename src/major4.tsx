@@ -23,7 +23,7 @@ export const Major4Menu = ( { children } ) => {
         </div>
         <Button
             gridArea="1 / 4 / span 1 / span 4"
-            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major4_1, ...major4_2 } ).map( type => [ type, initialConfiguration.type[ type ] ] ) ), M: configuration.type.M || Object.keys( configuration.type ).filter( type => configuration.type[ type ] ).every( type => Object.keys( major4_1 ).includes( type ) || Object.keys( major4_2 ).includes( type ) ) } } ) }
+            onClick={ () => setConfiguration( { ...configuration, type: { ...configuration.type, ...Object.fromEntries( Object.keys( { ...major4_1, ...major4_2 } ).map( type => [ type, initialConfiguration.type[ type ] ] ) ) } } ) }
         >
             RESET
         </Button>
@@ -62,7 +62,7 @@ export const Major4Menu = ( { children } ) => {
                     style={ { gridArea: `2 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <Button
-                        onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
+                        onClick={() => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) }
                         selected={ configuration.type[ chordType ] }
                     >
                         <Symbol root="C" tonic="C"/>
@@ -104,7 +104,7 @@ export const Major4Menu = ( { children } ) => {
                     style={ { gridArea: `6 / ${ 4 + 3 * i } / span 1 / span 3` } }
                 >
                     <Button
-                        onClick={ ( ! configuration.type[ chordType ] || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) ) }
+                        onClick={ () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, [ chordType ]: ! configuration.type[ chordType ] } } ) ) }
                         selected={ configuration.type[ chordType ] }
                     >
                         <Symbol root="C" tonic="C"/>

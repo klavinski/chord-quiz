@@ -5,7 +5,7 @@ export const Button = ( { children, gridArea, onClick, selected }: { children, g
 
     const [ hover, setHover ] = useState( false );
     return <div
-        onClick={ onClick }
+        onClick={ onClick ? onClick : undefined }
         onMouseEnter={ () => setHover( true ) }
         onMouseLeave={ () => setHover( false ) }
         style={ {

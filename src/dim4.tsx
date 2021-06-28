@@ -41,7 +41,7 @@ export const Dim4Menu = ( { children } ) => {
             style={ { gridArea: `2 / 2 / span 1 / span 1` } }
         >
             <Button
-                onClick={ ( ! configuration.type.dim7 || Object.values( configuration.type ).filter( type => type ).length > 1 ) && ( () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, dim7: ! configuration.type.dim7 } } ) ) ) }
+                onClick={ () => setConfiguration( configuration => ( { ...configuration, type: { ...configuration.type, dim7: ! configuration.type.dim7 } } ) ) }
                 selected={ configuration.type.dim7 }
             >
                 <Symbol root="C" tonic="C"/>

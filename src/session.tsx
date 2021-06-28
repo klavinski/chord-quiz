@@ -14,7 +14,14 @@ export const Session = ( { setChord } ) => {
         if ( Array.isArray( configuration.session ) && configuration.time !== "M" ) {
             const timer = setInterval( () => setTimeLeft( timeLeft => {
                 if ( timeLeft === 0 ) {
-                    setChord( generateChord( configuration, setConfiguration ) );
+                    try {
+                        const { lastLearnChordIndex, ...chord } = generateChord( configuration );
+                        console.log( "last", chord );
+                        setChord( chord );
+                        setConfiguration( configuration => ( { ...configuration, lastLearnChordIndex } ) );
+                    } catch( e ) {
+                        console.error( "Invalid chord configuration selected." );
+                    }
                     return configuration.time
                 }
                 else return timeLeft - .5;
@@ -40,7 +47,7 @@ export const Session = ( { setChord } ) => {
     }{
         configuration.time === "M" && Array.isArray( configuration.session ) &&
             <Button
-                onClick={ () => setChord( generateChord( configuration, setConfiguration ) ) }
+                onClick={ () => setChord( generateChord( configuration ) ) }
             >
                 NEXT
             </Button>

@@ -10,7 +10,6 @@ const generateNextChord = ( configuration ) => {
     const nextChords = allChords.slice( configuration.lastLearnChordIndex + 1 );
     const previousChords = allChords.slice( 0, configuration.lastLearnChordIndex + 1 );
     const currentLearnChordIndex = ( [ ...nextChords, ...previousChords ].findIndex( ( { tonic, type, inversion } ) => configuration.tonic[ tonic ] && configuration.type[ type ] && configuration.inversion[ inversion ] ) + configuration.lastLearnChordIndex + 1 ) % allChords.length;
-    console.log( { ...allChords[ currentLearnChordIndex ], currentLearnChordIndex } );
     return { ...allChords[ currentLearnChordIndex ], currentLearnChordIndex };
 
 };
@@ -21,30 +20,31 @@ const generateRandomChord = ( configuration ) => {
     const tonic = tonics[ Math.floor( Math.random() * tonics.length ) ];
     const types = Object.keys( configuration.type ).filter( type => configuration.type[ type ] );
     const type = types[ Math.floor( Math.random() * types.length ) ];
-    const canonicChord = Chord.getChord( type, tonic, tonic );
-    const inversions = Object.keys( configuration.inversion ).filter( inversion => configuration.inversion[ inversion ] && parseInt( inversion ) < canonicChord.notes.length );
+    const chord = Chord.getChord( type, tonic, tonic );
+    const inversions = Object.keys( configuration.inversion ).filter( inversion => configuration.inversion[ inversion ] && ( chord.notes.length === 4 || inversion !== "3" ) );
     const inversion = inversions[ Math.floor( Math.random() * inversions.length ) ];
     return { tonic, type, inversion, currentLearnChordIndex: configuration.lastLearnChordIndex };
 
 }
 
-export const generateChord = ( configuration: typeof initialConfiguration, setConfiguration ) => {
-    
+export const generateChord = ( configuration: typeof initialConfiguration ) => {
+
     const { tonic, type, inversion, currentLearnChordIndex } = ( typeof configuration.lastLearnChordIndex === "number" ) ?
         generateNextChord( configuration ) : generateRandomChord( configuration );
-    setConfiguration( { ...configuration, lastLearnChordIndex: currentLearnChordIndex } );
-    const root = Chord.getChord( type, tonic, tonic ).notes[ inversion ];
-    const chord3 = Chord.getChord( type, tonic + 3, root + 3 );
-    const averageNote = ( Midi.toMidi( chord3.notes[ 0 ] ) + Midi.toMidi( chord3.notes[ chord3.notes.length - 1 ] ) ) / 2;
-    const chord = Math.abs( averageNote - 64 ) <= Math.abs( averageNote + 12 - 64 ) ? chord3
-        : Chord.getChord( type, tonic + 4, root + 4 );
-
+    const notes = Chord.getChord( type, tonic + 3, tonic + 3 ).notes.map( Midi.toMidi );
+    const notesBeforeRoot = notes.slice( parseInt( inversion ) );
+    const notesAfterRoot = notes.slice( 0, parseInt( inversion ) );
+    const invertedNotes = [ ...notesBeforeRoot, ...notesAfterRoot.map( note => note + 12 ) ];
+    const root = Chord.getChord( type, tonic, tonic).notes[ inversion ];
+    const averageNote = ( invertedNotes[ 0 ] + invertedNotes[ invertedNotes.length - 1 ] ) / 2;
+    const transposedNotes = invertedNotes.map( note => note + Math.round( ( 64 - averageNote ) / 12 ) * 12 );
     const { Symbol, OtherSymbols } = chords[ type ];
     return {
-        ...chord,
+        notes: transposedNotes.map( note => Midi.midiToNoteName( note ) ),
         Symbol: () => <Symbol root={ root } tonic={ tonic }/>,
         OtherSymbols: () => <OtherSymbols root={ root } tonic={ tonic }/>,
-        midiNotes: chord.notes.map( Midi.toMidi )
+        midiNotes: transposedNotes,
+        lastLearnChordIndex: currentLearnChordIndex
     };
     
 };

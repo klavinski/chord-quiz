@@ -100,7 +100,7 @@ export const minor4_2 = {
         Symbol: ( { root, tonic } ) => <span>{ encode( tonic ) }<sup style={ noWidth }>6</sup><sub>m</sub>{ root !== tonic && <span>/{ encode( root ) }</span> }</span>,
         OtherSymbols: ( { root, tonic } ) => <span>{ encode( tonic ) }<sub style={ noWidth }>m</sub><sup>add 6</sup>{ root !== tonic && <span>/{ encode( root ) }</span> }</span>
     },
-    add9:{
+    madd9:{
         Symbol: ( { root, tonic } ) => <span>{ encode( tonic ) }<sub style={ noWidth }>m</sub><sup>add 9</sup>{ root !== tonic && <span>/{ encode( root ) }</span> }</span>,
         OtherSymbols: ( { root, tonic } ) => <span>{ encode( tonic ) }<sub style={ noWidth }>m</sub><sup>(add 9)</sup>{ root !== tonic && <span>/{ encode( root ) }</span> }</span>
     }
