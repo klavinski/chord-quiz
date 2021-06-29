@@ -16,7 +16,6 @@ export const Session = ( { setChord } ) => {
                 if ( timeLeft === 0 ) {
                     try {
                         const { lastLearnChordIndex, ...chord } = generateChord( configuration );
-                        console.log( "last", chord );
                         setChord( chord );
                         setConfiguration( configuration => ( { ...configuration, lastLearnChordIndex } ) );
                     } catch( e ) {
@@ -47,7 +46,16 @@ export const Session = ( { setChord } ) => {
     }{
         configuration.time === "M" && Array.isArray( configuration.session ) &&
             <Button
-                onClick={ () => setChord( generateChord( configuration ) ) }
+                onClick={ () => {
+                    try {
+                        const { lastLearnChordIndex, ...chord } = generateChord( configuration );
+                        console.log( "last", chord );
+                        setChord( chord );
+                        setConfiguration( configuration => ( { ...configuration, lastLearnChordIndex } ) );
+                    } catch( e ) {
+                        console.error( "Invalid chord configuration selected." );
+                    }
+                } }
             >
                 NEXT
             </Button>

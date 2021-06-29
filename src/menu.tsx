@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "./button";
 import { Icon } from "./icon";
 import { InversionMenu } from "./inversion";
 import { TimeMenu } from "./time";
@@ -7,6 +8,8 @@ import { TriadMenu } from "./triad";
 import { Major4Menu } from "./major4";
 import { Minor4Menu } from "./minor4";
 import { Dim4Menu } from "./dim4";
+import { HelpMenu } from "./help";
+import { TutorialMenu } from "./tutorial";
 
 export const Menu = () => {
 
@@ -17,28 +20,32 @@ export const Menu = () => {
         padding: "2vmin 0"
     } }>
         <TimeMenu>
-            <Icon type="metronome"/>
+            <Button><Icon type="metronome"/></Button>
         </TimeMenu>
         <TonicMenu>
-            <Icon type="tonic"/>
+            <Button><Icon type="tonic"/></Button>
         </TonicMenu>
         <TriadMenu>
-            <Icon type="3"/>
+            <Button><Icon type="3"/></Button>
         </TriadMenu>
         <Major4Menu>
-            <Icon type="maj"/>
+            <Button><Icon type="maj"/></Button>
         </Major4Menu>
         <Minor4Menu>
-            <Icon type="min"/>
+            <Button><Icon type="min"/></Button>
         </Minor4Menu>
         <Dim4Menu>
-            <Icon type="dim"/>
+            <Button><Icon type="dim"/></Button>
         </Dim4Menu>
         <InversionMenu>
-            <Icon type="xy"/>
+            <Button><Icon type="xy"/></Button>
         </InversionMenu>
-        <Icon type="eye"/>
-        <Icon type="question"/>
-        <Icon type="book"/>
+            <Button><Icon type="eye"/></Button>
+        <HelpMenu>
+            <Button><Icon type="question"/></Button>
+        </HelpMenu>
+        <TutorialMenu>
+            <Button><Icon type="book"/></Button>
+        </TutorialMenu>
     </div>;
 }

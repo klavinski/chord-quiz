@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 
-export const Button = ( { children, gridArea, onClick, selected }: { children, gridArea?, onClick, selected? } ) => {
+export const Button = ( { children, gridArea, onClick, selected }: { children, gridArea?, onClick?, selected? } ) => {
 
     const [ hover, setHover ] = useState( false );
     return <div
@@ -10,7 +10,7 @@ export const Button = ( { children, gridArea, onClick, selected }: { children, g
         onMouseLeave={ () => setHover( false ) }
         style={ {
             display: "flex",
-            backgroundColor: selected ? "rgb(90, 211, 160)" : hover ? "rgb(39, 192, 239)" : "rgba(39, 192, 239, .1)",
+            backgroundColor: selected ? "rgb(204, 221, 174)" : hover ? "rgb(227, 235, 244)" : "rgba(227, 235, 244, .4)",
             boxShadow: "",
             cursor: "pointer",
             gridArea: gridArea ?? "",
