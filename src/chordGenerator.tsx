@@ -44,7 +44,8 @@ export const generateChord = ( configuration: typeof initialConfiguration ) => {
         Symbol: () => <Symbol root={ root } tonic={ tonic }/>,
         OtherSymbols: () => <OtherSymbols root={ root } tonic={ tonic }/>,
         midiNotes: transposedNotes,
-        lastLearnChordIndex: currentLearnChordIndex
+        lastLearnChordIndex: currentLearnChordIndex,
+        inversion
     };
     
 };

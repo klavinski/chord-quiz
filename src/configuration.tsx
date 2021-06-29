@@ -27,7 +27,8 @@ export const initialConfiguration = {
     inversion: { 0: true, 1: false, 2: false, 3: false },
     type: { ...Object.fromEntries( Object.keys( chords ).map( chord => [ chord, false ] ) ), M: true },
     lastLearnChordIndex: null,
-    language: "fr"
+    language: "fr",
+    sound: true
 };
 
 export const configurationContext = createContext( null );

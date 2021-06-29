@@ -60,6 +60,6 @@ export const Session = ( { setChord } ) => {
                 NEXT
             </Button>
     }{
-        configuration.time === "M" ? "M" : Math.floor( timeLeft )
+        typeof configuration.time === "number" ? Math.floor( timeLeft ) : configuration.time
     }</>;
 };

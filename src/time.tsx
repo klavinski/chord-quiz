@@ -1,12 +1,16 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Tooltip } from "react-tippy";
 import { configurationContext, initialConfiguration } from "./configuration";
 import { Button } from "./button";
-import { type } from "os";
+import "web-midi-api";
 
 export const TimeMenu = ( { children } ) => {
 
+    const [ showMIDI, setShowMIDI ] = useState( false );
+    useEffect( () => {
+        navigator.requestMIDIAccess().then( () => { setShowMIDI( true ) } );
+    }, [] );
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     return <Tooltip trigger="click" html={ <div
         className="grid"
@@ -43,6 +47,16 @@ export const TimeMenu = ( { children } ) => {
     >
         Learn
     </Button>
+    {
+        showMIDI &&
+        <Button
+            gridArea="5 / 2 / span 1 / span 1"
+            onClick={ () => setConfiguration( { ...configuration, time: "MIDI" } ) }
+            selected={ configuration.time === "MIDI" }
+        >
+            MIDI
+        </Button>
+    }
     </div> }>
         { children }
     </Tooltip>;

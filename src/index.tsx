@@ -1,5 +1,4 @@
 import "./style.css";
-
 import * as React from "react";
 import { useState } from "react";
 import { render } from "react-dom";
@@ -9,6 +8,7 @@ import { Keyboard } from "./keyboard";
 import { Stave } from './stave';
 import { Menu } from "./menu";
 import { Session } from "./session";
+import { MIDI } from "./midi";
 
 const App = () => {
 
@@ -19,6 +19,7 @@ const App = () => {
             style={ { display: "flex" } }
         >
             <Session setChord={ setChord }/>
+            <MIDI chord={ chord.midiNotes } setChord={ setChord }/>
             <Stave chord={ chord.notes }/>
             <chord.Symbol/> 
             <chord.OtherSymbols/>

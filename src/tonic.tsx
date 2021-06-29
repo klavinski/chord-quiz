@@ -57,7 +57,7 @@ export const TonicMenu = ( { children } ) => {
         }
         <Button
             gridArea="9 / 1 / span 1 / span 6"
-            onClick={ () => console.log( tooltip.current.hideTooltip() ) }
+            onClick={ () => tooltip.current.hideTooltip() }
         >
             DONE
         </Button>
