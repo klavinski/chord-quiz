@@ -7,12 +7,14 @@ import { Tooltip } from "react-tippy";
 import { Button } from "./button";
 import sounds from "../assets/*.ogg";
 import { generateChord } from "./chordGenerator";
+import { StatisticsMenu } from "./statistics";
+import { major3, major4_1, major4_2, minor3, minor4_1, minor4_2 } from "./chordTable";
 
-const isWrong = ( keyboard, chord ) =>
-    keyboard.some( keyboardNote => chord.every( chordNote => keyboardNote % 12 !== chordNote % 12 ) );
+const isWrong = ( keyboardNotes, chordNotes ) =>
+    keyboardNotes.some( keyboardNote => chordNotes.every( chordNote => keyboardNote % 12 !== chordNote % 12 ) );
 
-const isRight = ( keyboard, chord ) =>
-    chord.every( chordNote => keyboard.some( keyboardNote => chordNote % 12 === keyboardNote % 12 ) );
+const isRight = ( keyboardNotes, chordNotes ) =>
+    chordNotes.every( chordNote => keyboardNotes.some( keyboardNote => chordNote % 12 === keyboardNote % 12 ) );
 
 const play = sound => {
 
@@ -35,15 +37,21 @@ export const MIDI = ( { chord, setChord } ) => {
         console.debug( newKeyboard );
 
         if ( event.data[ 2 ] > 0 && configuration.sound )
-            if ( isWrong( keyboard, chord ) )
+            if ( isWrong( newKeyboard, chord.midiNotes ) )
                 play( "wrong" );
-            else if ( isRight( keyboard, chord ) )
+            else if ( isRight( newKeyboard, chord.midiNotes ) )
                 play( "right" );
-        if ( ( isWrong( keyboard, chord ) || isRight( keyboard, chord ) ) && configuration.time === "MIDI" ) {
+        if ( ( isWrong( newKeyboard, chord.midiNotes ) || isRight( newKeyboard, chord.midiNotes ) ) && configuration.time === "MIDI" && Array.isArray( configuration.session ) ) {
             try {
-                const { lastLearnChordIndex, ...chord } = generateChord( configuration );
-                setChord( chord );
-                setConfiguration( configuration => ( { ...configuration, lastLearnChordIndex } ) );
+                const { lastChordIndex, ...newChord } = generateChord( configuration );
+                setChord( newChord );
+                setConfiguration( configuration => ( { ...configuration, lastChordIndex, session: [ ...configuration.session, {
+                    tonic: Object.values( configuration.tonic ).filter( isTrue => isTrue ).length,
+                    chord3: Object.entries( configuration.type ).filter( ( [ key, value ] ) => ( key in major3 || key in minor3 ) && value ).length,
+                    chord4: Object.entries( configuration.type ).filter( ( [ key, value ] ) => ( key in major4_1 || key in major4_2 || key in minor4_1 || key in minor4_2 ) && value ).length,
+                    inversion: configuration.inversion[ 1 ] || configuration.inversion[ 2 ] || configuration.inversion[ 3 ],
+                    success: isRight( newKeyboard, chord.midiNotes )
+                } ] } ) );
             } catch( e ) {
                 console.error( "Invalid chord configuration selected." );
             }
@@ -73,16 +81,13 @@ export const MIDI = ( { chord, setChord } ) => {
         >
             <Icon type="music"/>
         </Button>
-        <Icon type={ isWrong( keyboard, chord ) ? "wrong" : isRight( keyboard, chord ) ? "right" : "circle" }/>
-        0%
-        <Tooltip trigger="click" html={
-            <div
-            className="grid"
-            >
-                Statistics: to be completed
-            </div>
-        }>
+        <Icon type={ isWrong( keyboard, chord.midiNotes ) ? "error" : isRight( keyboard, chord.midiNotes ) ? "correct" : "circle" }/>
+        <div>{ 
+            Array.isArray( configuration.session ) && configuration.session.length > 0 &&
+            ( configuration.session.filter( chord => chord.success ).length / configuration.session.length * 100 ).toFixed() + " %"
+        }</div>
+        <StatisticsMenu>
             <Button><Icon type="chart"/></Button>
-        </Tooltip>
+        </StatisticsMenu>
     </>;
 }

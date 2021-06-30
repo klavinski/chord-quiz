@@ -64,4 +64,4 @@ export const TonicMenu = ( { children } ) => {
     </div> }>{
         children
     }</Tooltip>;
-}
+};

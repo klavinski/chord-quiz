@@ -1,16 +1,16 @@
-import { Chord, Midi }from "@tonaljs/tonal";
+import { Chord, Midi } from "@tonaljs/tonal";
 import * as React from "react";
 import { initialConfiguration } from "./configuration";
 import { chords, major3, minor3 } from "./chordTable";
 
-const allChords = Object.keys( initialConfiguration.tonic ).flatMap( tonic => Object.keys( initialConfiguration.type ).flatMap( type => Object.keys( initialConfiguration.inversion ).map( inversion => ( { tonic, type, inversion } ) ) ) ).filter( ( { type, inversion } ) => ! ( inversion === "3" && ( type in major3 || type in minor3 ) ) );
+export const allChords = Object.keys( initialConfiguration.tonic ).flatMap( tonic => Object.keys( initialConfiguration.type ).flatMap( type => Object.keys( initialConfiguration.inversion ).map( inversion => ( { tonic, type, inversion } ) ) ) ).filter( ( { type, inversion } ) => ! ( inversion === "3" && ( type in major3 || type in minor3 ) ) );
 
 const generateNextChord = ( configuration ) => {
 
-    const nextChords = allChords.slice( configuration.lastLearnChordIndex + 1 );
-    const previousChords = allChords.slice( 0, configuration.lastLearnChordIndex + 1 );
-    const currentLearnChordIndex = ( [ ...nextChords, ...previousChords ].findIndex( ( { tonic, type, inversion } ) => configuration.tonic[ tonic ] && configuration.type[ type ] && configuration.inversion[ inversion ] ) + configuration.lastLearnChordIndex + 1 ) % allChords.length;
-    return { ...allChords[ currentLearnChordIndex ], currentLearnChordIndex };
+    const nextChords = allChords.slice( configuration.lastChordIndex + 1 );
+    const previousChords = allChords.slice( 0, configuration.lastChordIndex + 1 );
+    const currentChordIndex = ( [ ...nextChords, ...previousChords ].findIndex( ( { tonic, type, inversion } ) => configuration.tonic[ tonic ] && configuration.type[ type ] && configuration.inversion[ inversion ] ) + configuration.lastChordIndex + 1 ) % allChords.length;
+    return { ...allChords[ currentChordIndex ], currentChordIndex };
 
 };
 
@@ -23,13 +23,14 @@ const generateRandomChord = ( configuration ) => {
     const chord = Chord.getChord( type, tonic, tonic );
     const inversions = Object.keys( configuration.inversion ).filter( inversion => configuration.inversion[ inversion ] && ( chord.notes.length === 4 || inversion !== "3" ) );
     const inversion = inversions[ Math.floor( Math.random() * inversions.length ) ];
-    return { tonic, type, inversion, currentLearnChordIndex: configuration.lastLearnChordIndex };
+    const currentChordIndex = allChords.findIndex( ( { tonic, type, inversion } ) => configuration.tonic[ tonic ] && configuration.type[ type ] && configuration.inversion[ inversion ] );
+    return { tonic, type, inversion, currentChordIndex };
 
 }
 
 export const generateChord = ( configuration: typeof initialConfiguration ) => {
 
-    const { tonic, type, inversion, currentLearnChordIndex } = ( typeof configuration.lastLearnChordIndex === "number" ) ?
+    const { tonic, type, inversion, currentChordIndex } = ( configuration.learn ) ?
         generateNextChord( configuration ) : generateRandomChord( configuration );
     const notes = Chord.getChord( type, tonic + 3, tonic + 3 ).notes.map( Midi.toMidi );
     const notesBeforeRoot = notes.slice( parseInt( inversion ) );
@@ -44,7 +45,7 @@ export const generateChord = ( configuration: typeof initialConfiguration ) => {
         Symbol: () => <Symbol root={ root } tonic={ tonic }/>,
         OtherSymbols: () => <OtherSymbols root={ root } tonic={ tonic }/>,
         midiNotes: transposedNotes,
-        lastLearnChordIndex: currentLearnChordIndex,
+        lastChordIndex: currentChordIndex,
         inversion
     };
     

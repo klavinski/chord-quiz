@@ -19,7 +19,7 @@ const App = () => {
             style={ { display: "flex" } }
         >
             <Session setChord={ setChord }/>
-            <MIDI chord={ chord.midiNotes } setChord={ setChord }/>
+            <MIDI chord={ chord } setChord={ setChord }/>
             <Stave chord={ chord.notes }/>
             <chord.Symbol/> 
             <chord.OtherSymbols/>

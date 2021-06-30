@@ -14,7 +14,10 @@ export const Button = ( { children, gridArea, onClick, selected }: { children, g
             boxShadow: "",
             cursor: "pointer",
             gridArea: gridArea ?? "",
-            justifyContent: "center"
+            justifyContent: "center",
+            minHeight: "10vmin",
+            minWidth: "10vmin",
+            alignItems: "center"
         } }
     >
         { children }

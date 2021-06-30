@@ -14,7 +14,7 @@ export const TimeMenu = ( { children } ) => {
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     return <Tooltip trigger="click" html={ <div
         className="grid"
-        style={ { gridTemplateColumns: "repeat( 1, 1fr )" } }
+        style={ { gridTemplateColumns: "repeat( 2, 1fr )" } }
     >
     <Button
         gridArea="1 / 1 / span 1 / span 1"
@@ -42,8 +42,8 @@ export const TimeMenu = ( { children } ) => {
     </Button>
     <Button
         gridArea="3 / 2 / span 1 / span 1"
-        onClick={ () => setConfiguration( { ...configuration, lastLearnChordIndex: typeof configuration.lastLearnChordIndex === "number" ? null : -1 } ) }
-        selected={ typeof configuration.lastLearnChordIndex === "number" }
+        onClick={ () => setConfiguration( configuration => ( { ...configuration, learn: ! configuration.learn } ) ) }
+        selected={ configuration.learn }
     >
         Learn
     </Button>

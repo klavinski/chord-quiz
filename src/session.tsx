@@ -1,8 +1,9 @@
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
-import { configurationContext } from "./configuration";
+import { configurationContext, initialConfiguration } from "./configuration";
 import { Button } from "./button";
 import { generateChord } from "./chordGenerator";
+import { Storage } from "@capacitor/storage";
 
 export const Session = ( { setChord } ) => {
 
@@ -15,9 +16,9 @@ export const Session = ( { setChord } ) => {
             const timer = setInterval( () => setTimeLeft( timeLeft => {
                 if ( timeLeft === 0 ) {
                     try {
-                        const { lastLearnChordIndex, ...chord } = generateChord( configuration );
+                        const { lastChordIndex, ...chord } = generateChord( configuration );
                         setChord( chord );
-                        setConfiguration( configuration => ( { ...configuration, lastLearnChordIndex } ) );
+                        setConfiguration( configuration => ( { ...configuration, lastChordIndex } ) );
                     } catch( e ) {
                         console.error( "Invalid chord configuration selected." );
                     }
@@ -34,7 +35,22 @@ export const Session = ( { setChord } ) => {
     return <>{
         Array.isArray( configuration.session ) ?
             <Button
-                onClick={ () => setConfiguration( configuration => ( { ...configuration, session: null, lastLearnChordIndex: null } ) ) }
+                onClick={ () => {
+
+                    if ( configuration.session.length > 0 ) 
+                        Storage.keys()
+                            .then( ( { keys } ) => Storage.set( {
+                                key: keys.length.toString(),
+                                value: JSON.stringify( configuration.session )
+                            } ) );
+
+                    setConfiguration( configuration => ( {
+                        ...configuration,
+                        session: null,
+                        lastChordIndex: initialConfiguration.lastChordIndex
+                    } ) );
+
+                } }
             >
                 STOP
             </Button>:
@@ -48,10 +64,9 @@ export const Session = ( { setChord } ) => {
             <Button
                 onClick={ () => {
                     try {
-                        const { lastLearnChordIndex, ...chord } = generateChord( configuration );
-                        console.log( "last", chord );
+                        const { lastChordIndex, ...chord } = generateChord( configuration );
                         setChord( chord );
-                        setConfiguration( configuration => ( { ...configuration, lastLearnChordIndex } ) );
+                        setConfiguration( configuration => ( { ...configuration, lastChordIndex } ) );
                     } catch( e ) {
                         console.error( "Invalid chord configuration selected." );
                     }
