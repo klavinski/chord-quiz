@@ -2,22 +2,55 @@
 
 * { font-family: "Inter", "system-ui"; }
 
-body { background-color: white; font-size: 5vmin; overflow: hidden; }
+body { background-color: lightgrey; font-size: 5vmin; overflow: hidden; }
 
 .grid {
 
     display: grid;
     align-items: center;
     grid-template-rows: auto;
-    gap: 2vmin;
+    gap: 3vmin;
     box-shadow: rgba( 0, 0, 0, .2 ) 0px 0px 1rem;
     padding: 2vmin;
     border-radius: 2vmin;
-    background-color: white;
     max-width: calc( 100vw - 7vmin );
     max-height: calc( 100vh - 25vmin );
     overflow: auto;
+    background-color: lightgrey;
 
 }
 
-.grid > * { text-align: center; }
+.grid > * { text-align: center }
+
+.button {
+    display: flex;
+    background-color: transparent;
+    cursor: pointer;
+    justify-content: center;
+    min-height: 10vmin;
+    min-width: 10vmin;
+    align-items: center;
+    border-radius: 1vmin;
+    transition: .3s all;
+    box-shadow: rgba(0, 0, 0, .2) 0 0 .5vmin, rgba(0, 0, 0, .2) 0 0 inset;
+}
+
+.button:hover {
+    transform: scale( 0.98 );
+    box-shadow: rgba(0, 0, 0, .2) 0 0, rgba(0, 0, 0, .2) 0 0 inset;
+}
+
+.button:active {
+    transform: scale( 0.95 );
+    box-shadow: rgba(0, 0, 0, .2) 0 0, rgba(0, 0, 0, .2) 0 0 1vmin inset;
+}
+.button.selected {
+    background-color: rgba(176, 219, 101, 0.5) !important;
+    box-shadow: rgba(0, 0, 0, .2) 0 0, rgba(0, 0, 0, .1) 0 0 1vmin inset !important;
+}
+
+.button.disabled {
+    pointer-events: none;
+    color: rgba( 0, 0, 0, .2 );
+    box-shadow: none;
+}

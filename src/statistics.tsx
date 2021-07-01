@@ -2,11 +2,12 @@ import { Storage } from "@capacitor/storage";
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Tooltip as ReactTooltip } from "react-tippy";
-import { Bar, BarChart, Cell, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Cell, ReferenceLine, Tooltip, XAxis, YAxis } from "recharts";
 import { Button } from "./button";
 import { Icon } from "./icon";
 import "regenerator-runtime/runtime";
 import { configurationContext } from "./configuration";
+import { useWindowSize } from "react-use";
 
 const colors = [
     "rgb( 204, 193, 218 )",
@@ -39,26 +40,31 @@ export const StatisticsMenu = ( { children } ) => {
     const tooltip = useRef( null );
     const [ configuration ] = useContext( configurationContext );
     const [ page, setPage ] = useState( 0 );
-    const [ statistics, setStatistics ] = useState( [] );
+    const [ statistics, setStatistics ] = useState( { average: null, data: [] } );
+    const { width, height } = useWindowSize();
     useEffect( () => { ( async () => {
         const { keys } = await Storage.keys();
         const sessions = await Promise.all( keys.sort().slice( page * 10, page * 10 + 10 ).map( key => Storage.get( { key } ).then( ( { value } ) => JSON.parse( value ) ) ) );
         const combinedChords = sessions.reduce( ( acc, cur ) => [ ...acc, ...cur ], [] );
-        setStatistics( [
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord3 > 1 && chord4 === 0 && ! inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord3 > 1 && chord4 === 0 && inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 === 1 && chord4 === 0 && ! inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 === 1 && chord4 === 0 && inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 > 1 && chord4 === 0 && ! inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 > 1 && chord4 === 0 && inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord4 > 0 && ! inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord4 > 0 && inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord4 > 0 && ! inversion ),
-            combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord4 > 0 && inversion )
-        ].map( chords => ( {
-            Success: chords.length > 0 ? ( chords.filter( ( { success } ) => success ).length / chords.length * 100 ).toFixed( 2 ) : "no data"
-        } ) ) );
-    } )(); }, [ configuration.session, page, window.innerWidth ] );
+        setStatistics( {
+            average: combinedChords.length > 0 ? combinedChords.filter( ( { success } ) => success ).length / combinedChords.length * 100 : null,
+            data: [
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord3 > 1 && chord4 === 0 && ! inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord3 > 1 && chord4 === 0 && inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 === 1 && chord4 === 0 && ! inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 === 1 && chord4 === 0 && inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 > 1 && chord4 === 0 && ! inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord3 > 1 && chord4 === 0 && inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord4 > 0 && ! inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic === 1 && chord4 > 0 && inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord4 > 0 && ! inversion ),
+                combinedChords.filter( ( { tonic, chord3, chord4, inversion } ) => tonic > 1 && chord4 > 0 && inversion )
+            ].map( chords => ( {
+                Score: chords.length > 0 ? ( chords.filter( ( { success } ) => success ).length / chords.length * 100 ).toFixed( 2 ) : "no data"
+            } ) )
+        } );
+    } )(); }, [ configuration.session, page ] );
+
     return <ReactTooltip ref={ tooltip } trigger="click" interactive={ true } html={ <div
         className="grid"
         style={ { gridTemplateColumns: "repeat( 6, 1fr )", maxHeight: "calc( 100vh - 50vmin )" } }
@@ -66,12 +72,16 @@ export const StatisticsMenu = ( { children } ) => {
         <div
             style={ { gridArea: "1 / 1 / span 1 / span 6" } }
         >
-            <BarChart width={ window.innerWidth * .95 } height={ window.innerHeight / 3 } data={ statistics }>
+            <BarChart width={ width - .05 * Math.min( width, height ) } height={ height - .7 * Math.min( width, height ) } data={ statistics.data }>
                 <XAxis hide={ true }/>
-                <YAxis unit="%"/>
+                <YAxis unit="%" width={ Math.min( window.innerWidth, window.innerHeight ) * .15 }/>
+                <ReferenceLine
+                    y={ statistics.average }
+                    label="average"
+                />
                 <Tooltip labelFormatter={ label => labels[ label ] }/>
-                <Bar dataKey="Success">{
-                    statistics.map( ( _, index ) => (
+                <Bar dataKey="Score">{
+                    statistics.data.map( ( _, index ) => (
                     <Cell fill={ colors[ index ] }/> ) )
                 }</Bar>
             </BarChart>

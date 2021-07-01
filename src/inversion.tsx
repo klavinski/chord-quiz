@@ -8,6 +8,8 @@ import { configurationContext, initialConfiguration } from "./configuration";
 import { Button } from "./button";
 import { chords } from "./chordTable";
 
+const ellipsis = { overflow: "hidden", textOverflow: "ellipsis" };
+
 export const InversionMenu = ( { children } ) => {
 
     const tooltip = useRef( null );
@@ -56,7 +58,12 @@ export const InversionMenu = ( { children } ) => {
                     onClick={ () => setConfiguration( configuration => ( { ...configuration, inversion: { ...configuration.inversion, [ inversion ]: ! configuration.inversion[ inversion ] } } ) ) }
                     selected={ configuration.inversion[ inversion ] }
                 >
-                    { [ <>Fundamental state</>, <>1<sup>st</sup> inversion</>, <>2<sup>nd</sup> inversion</>, <span>3<sup>rd</sup> (4 notes only)</span> ][ inversion ] }
+                    { [
+                        <span style={ ellipsis }>Fundamental state</span>,
+                        <span style={ ellipsis }>1<sup>st</sup> inversion</span>,
+                        <span style={ ellipsis }>2<sup>nd</sup> inversion</span>,
+                        <span style={ ellipsis }>3<sup>rd</sup> (4 notes only)</span>
+                    ][ inversion ] }
                 </Button>
                 <div
                     key={ "stave" + inversion }

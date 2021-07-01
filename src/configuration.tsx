@@ -8,28 +8,32 @@ export const initialConfiguration = {
     tonic: {
         "C": true,
         "C#": false,
-        "D": false,
         "Db": false,
+        "D": false,        
         "D#": false,
-        "E": false,
         "Eb": false,
+        "E": false,        
         "F": false,
         "F#": false,
-        "G": false,
         "Gb": false,
+        "G": false,        
         "G#": false,
-        "A": false,
         "Ab": false,
+        "A": false,        
         "A#": false,
-        "B": false,
-        "Bb": false
+        "Bb": false,
+        "B": false        
     },
     inversion: { 0: true, 1: false, 2: false, 3: false },
     type: { ...Object.fromEntries( Object.keys( chords ).map( chord => [ chord, false ] ) ), M: true },
     learn: false,
-    lastChordIndex: 0,
+    lastChordIndex: -1,
     language: "fr",
-    sound: true
+    sound: true,
+    showSymbol: true,
+    showOtherSymbols: true,
+    showStave: true,
+    showKeyboard: true
 };
 
 export const configurationContext = createContext( null );

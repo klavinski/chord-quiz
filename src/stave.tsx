@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { render } from "react-dom";
 import Vex from "vexflow";
-const VF = Vex.Flow;
 
-export const Stave = ( { chord }: { chord: string[] } ) => {
+
+export const Stave = ( { chord, zoom }: { chord: string[], zoom?: number } ) => {
 
     const div = useRef<HTMLDivElement>();
     useEffect( () => {
@@ -17,8 +16,8 @@ export const Stave = ( { chord }: { chord: string[] } ) => {
         voices: [ score.voice( score.notes( "(" + chord.join( " " ) + ")/w" ), {} ) ]
         } ).addClef( "treble" );
         vf.draw();
-        div.current.querySelector( "svg" ).style.width = "25vmin";
-        div.current.querySelector( "svg" ).style.height = "25vmin";
+        div.current.querySelector( "svg" ).style.width = ( zoom ?? 1 ) * 30 + "vmin";
+        div.current.querySelector( "svg" ).style.height = ( zoom ?? 1 ) * 30 + "vmin";
         return () => { div.current.innerHTML = "" };
 
     }, [ chord ] );

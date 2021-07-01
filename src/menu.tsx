@@ -8,16 +8,18 @@ import { TriadMenu } from "./triad";
 import { Major4Menu } from "./major4";
 import { Minor4Menu } from "./minor4";
 import { Dim4Menu } from "./dim4";
+import { ViewMenu } from "./view";
 import { HelpMenu } from "./help";
 import { TutorialMenu } from "./tutorial";
 
 export const Menu = () => {
 
     return <div style={ {
-        width: "100%",
+        width: "100vw",
         display: "flex",
-        justifyContent: "space-around",
-        padding: "2vmin 0"
+        justifyContent: "space-between",
+        padding: "1vmin",
+        boxSizing: "border-box"
     } }>
         <TimeMenu>
             <Button><Icon type="metronome"/></Button>
@@ -40,7 +42,9 @@ export const Menu = () => {
         <InversionMenu>
             <Button><Icon type="xy"/></Button>
         </InversionMenu>
+        <ViewMenu>
             <Button><Icon type="eye"/></Button>
+        </ViewMenu>
         <HelpMenu>
             <Button><Icon type="question"/></Button>
         </HelpMenu>

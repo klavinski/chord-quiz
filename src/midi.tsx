@@ -76,18 +76,22 @@ export const MIDI = ( { chord, setChord } ) => {
     }, [ configuration ] );
     return <>
         <Button
+            gridArea="sound"
             onClick={ () => setConfiguration( configuration => ( { ...configuration, sound: ! configuration.sound } ) ) }
             selected={ configuration.sound }
         >
             <Icon type="music"/>
         </Button>
-        <Icon type={ isWrong( keyboard, chord.midiNotes ) ? "error" : isRight( keyboard, chord.midiNotes ) ? "correct" : "circle" }/>
-        <div>{ 
+        <div style={ { gridArea: "check" } }>
+            <Icon type={ isWrong( keyboard, chord.midiNotes ) ? "error" : isRight( keyboard, chord.midiNotes ) ? "correct" : "circle" }/>
+        </div><div style={ { gridArea: "score" } }>{ 
             Array.isArray( configuration.session ) && configuration.session.length > 0 &&
             ( configuration.session.filter( chord => chord.success ).length / configuration.session.length * 100 ).toFixed() + " %"
         }</div>
-        <StatisticsMenu>
-            <Button><Icon type="chart"/></Button>
-        </StatisticsMenu>
+        <div style={ { gridArea: "statistics" } }>
+            <StatisticsMenu>
+                <Button><Icon type="chart"/></Button>
+            </StatisticsMenu>
+        </div>
     </>;
 }

@@ -32,10 +32,12 @@ export const Session = ( { setChord } ) => {
 
     }, [ configuration ] );
 
-    return <>{
-        Array.isArray( configuration.session ) ?
-            <Button
-                onClick={ () => {
+    return <>
+        <Button
+            gridArea="start"
+            onClick={ () => {
+
+                if ( Array.isArray( configuration.session ) ) {
 
                     if ( configuration.session.length > 0 ) 
                         Storage.keys()
@@ -50,31 +52,41 @@ export const Session = ( { setChord } ) => {
                         lastChordIndex: initialConfiguration.lastChordIndex
                     } ) );
 
-                } }
-            >
-                STOP
-            </Button>:
-            <Button
-                onClick={ () => { setConfiguration( configuration => ( { ...configuration, session: [] } ) ) } }
-            >
-                START
-            </Button>
-    }{
-        configuration.time === "M" && Array.isArray( configuration.session ) &&
-            <Button
-                onClick={ () => {
+                } else
                     try {
-                        const { lastChordIndex, ...chord } = generateChord( configuration );
-                        setChord( chord );
-                        setConfiguration( configuration => ( { ...configuration, lastChordIndex } ) );
+                        const { lastChordIndex, ...newChord } = generateChord( configuration );
+                        setChord( newChord );
+                        setConfiguration( configuration => ( { ...configuration, lastChordIndex, session: [] } ) );
                     } catch( e ) {
                         console.error( "Invalid chord configuration selected." );
                     }
-                } }
-            >
-                NEXT
-            </Button>
-    }{
-        typeof configuration.time === "number" ? Math.floor( timeLeft ) : configuration.time
-    }</>;
+            } }
+        >
+            { Array.isArray( configuration.session ) ? "STOP" : "START" }
+        </Button>
+        <Button
+            disabled={ configuration.time !== "M" || ! Array.isArray( configuration.session ) }
+            gridArea="next"
+            onClick={ () => {
+                try {
+                    const { lastChordIndex, ...chord } = generateChord( configuration );
+                    setChord( chord );
+                    setConfiguration( configuration => ( { ...configuration, lastChordIndex } ) );
+                } catch( e ) {
+                    console.error( "Invalid chord configuration selected." );
+                }
+            } }
+        >
+            NEXT
+        </Button>
+        <div style={ {
+            gridArea: "timer",
+            fontSize: "2em",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+        } }>{
+            typeof configuration.time === "number" ? Math.floor( timeLeft ) : configuration.time
+        }</div>
+    </>;
 };

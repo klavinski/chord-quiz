@@ -1,5 +1,5 @@
 {
-  "appId": "com.chord-quiz",
+  "appId": "com.chordquiz",
   "appName": "Chord quiz",
   "bundledWebRuntime": false,
   "webDir": "dist",
