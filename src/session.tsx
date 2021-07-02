@@ -13,18 +13,26 @@ export const Session = ( { setChord } ) => {
 
         setTimeLeft( configuration.time );
         if ( Array.isArray( configuration.session ) && configuration.time !== "M" ) {
+
             const timer = setInterval( () => setTimeLeft( timeLeft => {
+
                 if ( timeLeft === 0 ) {
-                    try {
-                        const { lastChordIndex, ...chord } = generateChord( configuration );
-                        setChord( chord );
-                        setConfiguration( configuration => ( { ...configuration, lastChordIndex } ) );
-                    } catch( e ) {
-                        console.error( "Invalid chord configuration selected." );
-                    }
-                    return configuration.time
-                }
-                else return timeLeft - .5;
+
+                    setConfiguration( configuration => {
+                        
+                        try {
+                            const { lastChordIndex, ...chord } = generateChord( configuration );
+                            setChord( chord );
+                            return { ...configuration, lastChordIndex };
+                        } catch( e ) {
+                            console.error( "Invalid chord configuration selected." );
+                            return configuration;
+                        }
+                    } );
+                    return configuration.time;
+
+                } else
+                    return timeLeft - .5;
             } ), 500 );
             return () => clearInterval( timer );
 

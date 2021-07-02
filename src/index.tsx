@@ -13,7 +13,7 @@ import { useWindowSize } from "react-use";
 
 const App = () => {
 
-    const [ chord, setChord ] = useState( generateChord( initialConfiguration ) );
+    const [ chord, setChord ] = useState( () => generateChord( initialConfiguration ) );
     const { width, height } = useWindowSize();
     return <ConfigurationProvider>
         <Menu/>

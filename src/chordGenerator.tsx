@@ -23,15 +23,14 @@ const generateRandomChord = ( configuration ) => {
     const chord = Chord.getChord( type, tonic, tonic );
     const inversions = Object.keys( configuration.inversion ).filter( inversion => configuration.inversion[ inversion ] && ( chord.notes.length === 4 || inversion !== "3" ) );
     const inversion = inversions[ Math.floor( Math.random() * inversions.length ) ];
-    const currentChordIndex = allChords.findIndex( ( { tonic, type, inversion } ) => configuration.tonic[ tonic ] && configuration.type[ type ] && configuration.inversion[ inversion ] );
+    const currentChordIndex = allChords.findIndex( ( chord => chord.tonic === tonic && chord.type === type && chord.inversion === inversion ) );
     return { tonic, type, inversion, currentChordIndex };
 
 }
 
 export const generateChord = ( configuration: typeof initialConfiguration ) => {
-
-    const { tonic, type, inversion, currentChordIndex } = ( configuration.learn ) ?
-        generateNextChord( configuration ) : generateRandomChord( configuration );
+    
+    const { tonic, type, inversion, currentChordIndex } = ( configuration.learn ) ? generateNextChord( configuration ) : generateRandomChord( configuration );
     const notes = Chord.getChord( type, tonic + 3, tonic + 3 ).notes;
     const notesBeforeRoot = notes.slice( parseInt( inversion ) );
     const notesAfterRoot = notes.slice( 0, parseInt( inversion ) );
@@ -40,7 +39,7 @@ export const generateChord = ( configuration: typeof initialConfiguration ) => {
     const averageNote = ( Midi.toMidi( invertedNotes[ 0 ] ) + Midi.toMidi( invertedNotes[ invertedNotes.length - 1 ] ) ) / 2;
     const transposedNotes = 64 - averageNote >= 6 ? invertedNotes.map( note => Note.transpose( note, "8P" ) ) : invertedNotes;
     const { Symbol, OtherSymbols } = chords[ type ];
-    console.log( averageNote, transposedNotes );
+    
     return {
         notes: transposedNotes,
         Symbol: () => <Symbol root={ root } tonic={ tonic }/>,
