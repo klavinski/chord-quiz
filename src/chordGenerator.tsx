@@ -1,4 +1,4 @@
-import { Chord, Midi } from "@tonaljs/tonal";
+import { Chord, Midi, Note } from "@tonaljs/tonal";
 import * as React from "react";
 import { initialConfiguration } from "./configuration";
 import { chords, major3, minor3 } from "./chordTable";
@@ -32,21 +32,21 @@ export const generateChord = ( configuration: typeof initialConfiguration ) => {
 
     const { tonic, type, inversion, currentChordIndex } = ( configuration.learn ) ?
         generateNextChord( configuration ) : generateRandomChord( configuration );
-    const notes = Chord.getChord( type, tonic + 3, tonic + 3 ).notes.map( Midi.toMidi );
+    const notes = Chord.getChord( type, tonic + 3, tonic + 3 ).notes;
     const notesBeforeRoot = notes.slice( parseInt( inversion ) );
     const notesAfterRoot = notes.slice( 0, parseInt( inversion ) );
-    const invertedNotes = [ ...notesBeforeRoot, ...notesAfterRoot.map( note => note + 12 ) ];
-    const root = Chord.getChord( type, tonic, tonic).notes[ inversion ];
-    const averageNote = ( invertedNotes[ 0 ] + invertedNotes[ invertedNotes.length - 1 ] ) / 2;
-    const transposedNotes = invertedNotes.map( note => note + Math.round( ( 64 - averageNote ) / 12 ) * 12 );
+    const invertedNotes = [ ...notesBeforeRoot, ...notesAfterRoot.map( note => Note.transpose( note, "8P" ) ) ];
+    const root = Chord.getChord( type, tonic, tonic ).notes[ inversion ];
+    const averageNote = ( Midi.toMidi( invertedNotes[ 0 ] ) + Midi.toMidi( invertedNotes[ invertedNotes.length - 1 ] ) ) / 2;
+    const transposedNotes = 64 - averageNote >= 6 ? invertedNotes.map( note => Note.transpose( note, "8P" ) ) : invertedNotes;
     const { Symbol, OtherSymbols } = chords[ type ];
+    console.log( averageNote, transposedNotes );
     return {
-        notes: transposedNotes.map( note => Midi.midiToNoteName( note ) ),
+        notes: transposedNotes,
         Symbol: () => <Symbol root={ root } tonic={ tonic }/>,
         OtherSymbols: () => <OtherSymbols root={ root } tonic={ tonic }/>,
-        midiNotes: transposedNotes,
-        lastChordIndex: currentChordIndex,
-        inversion
+        midiNotes: transposedNotes.map( Midi.toMidi ),
+        lastChordIndex: currentChordIndex
     };
     
 };
