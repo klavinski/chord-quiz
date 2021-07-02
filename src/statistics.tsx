@@ -67,12 +67,12 @@ export const StatisticsMenu = ( { children } ) => {
 
     return <ReactTooltip ref={ tooltip } trigger="click" interactive={ true } html={ <div
         className="grid"
-        style={ { gridTemplateColumns: "repeat( 6, 1fr )", maxHeight: "calc( 100vh - 50vmin )" } }
+        style={ { gridTemplateColumns: "repeat( 6, 1fr )" } }
     >
         <div
             style={ { gridArea: "1 / 1 / span 1 / span 6" } }
         >
-            <BarChart width={ width - .05 * Math.min( width, height ) } height={ height - .7 * Math.min( width, height ) } data={ statistics.data }>
+            <BarChart width={ width - .05 * Math.min( width, height ) } height={ height - .5 * Math.min( width, height ) } data={ statistics.data }>
                 <XAxis hide={ true }/>
                 <YAxis unit="%" width={ Math.min( window.innerWidth, window.innerHeight ) * .15 }/>
                 <ReferenceLine
