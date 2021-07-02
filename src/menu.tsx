@@ -15,11 +15,10 @@ import { TutorialMenu } from "./tutorial";
 export const Menu = () => {
 
     return <div style={ {
-        width: "100vw",
+        gridArea: "menu",
         display: "flex",
         justifyContent: "space-between",
-        padding: "1vmin",
-        boxSizing: "border-box"
+        maxWidth: "calc( 100vw - 4vmin )"
     } }>
         <TimeMenu>
             <Button><Icon type="metronome"/></Button>

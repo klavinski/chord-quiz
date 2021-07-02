@@ -8,10 +8,7 @@ import { CapElectronEventEmitter, getCapacitorConfig, setupCapacitorElectronPlug
 const TrayMenuTemplate = [
   new MenuItem({ label: "Quit App", role: "quit" })
 ];
-const AppMenuBarMenuTemplate = [
-  { role: process.platform === "darwin" ? "appMenu" : "fileMenu" },
-  { role: "viewMenu" },
-];
+const AppMenuBarMenuTemplate = [];
 const DeepLinkingConfig = {customProtocol: 'mycapacitorapp'};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,9 +95,6 @@ class ElectronCapacitorApp {
         this.MainWindow.show();
       }
       setTimeout(() => {
-        if (electronIsDev) {
-          this.MainWindow.webContents.openDevTools();
-        }
         CapElectronEventEmitter.emit("CAPELECTRON_DeeplinkListenerInitialized", "");
       }, 400);
     });

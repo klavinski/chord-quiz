@@ -64,7 +64,13 @@ const Key = ( { chord, note: key }: { chord: number[], note: number } ) => {
 
 export const Keyboard = ( { chord, width }: { chord: number[], width: number } ) => {
 
-    return <div style={ { width, height: width * 335 / 825, overflow: "hidden" } }>
+    return <div
+        style={ {
+            width,
+            height: width * 335 / 825,
+            overflow: "hidden",
+            filter: "drop-shadow(black 0 2vmin 1vmin)"
+    } }>
         <div style={ { width: 825, transformOrigin: "top left", transform: "scale( " + ( width / 825 ) + " )" } } >
             { [ ...new Array( 26 ) ].map( ( _, note ) => <Key key={ note } note={ note + 51 } chord={ chord }/> ) }
         </div>

@@ -54,3 +54,9 @@ body { background-color: lightgrey; font-size: 5vmin; overflow: hidden; }
     color: rgba( 0, 0, 0, .2 );
     box-shadow: none;
 }
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -84,7 +84,7 @@ export const MIDI = ( { chord, setChord } ) => {
         </Button>
         <div style={ { gridArea: "check" } }>
             <Icon type={ isWrong( keyboard, chord.midiNotes ) ? "error" : isRight( keyboard, chord.midiNotes ) ? "correct" : "circle" }/>
-        </div><div style={ { gridArea: "score" } }>{ 
+        </div><div className="center" style={ { gridArea: "score" } }>{ 
             Array.isArray( configuration.session ) && configuration.session.length > 0 &&
             ( configuration.session.filter( chord => chord.success ).length / configuration.session.length * 100 ).toFixed() + " %"
         }</div>
