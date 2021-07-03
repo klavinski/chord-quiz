@@ -1,49 +1,51 @@
+/** This file sets up the MIDI devices, what happens when a key is pressed or released, and adds the successes and failures to the sesssion. */
+
+import sounds from "../assets/*.ogg";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import "web-midi-api";
-import { configurationContext } from "./configuration";
-import { Icon } from "./icon";
-import { Tooltip } from "react-tippy";
 import { Button } from "./button";
-import sounds from "../assets/*.ogg";
 import { generateChord } from "./chordGenerator";
-import { StatisticsMenu } from "./statistics";
+import { configurationContext } from "./configuration";
 import { major3, major4_1, major4_2, minor3, minor4_1, minor4_2 } from "./chordTable";
+import { Icon } from "./icon";
+import { StatisticsMenu } from "./statistics";
 
+/** Checks if there is a wrong note amid the keyboard notes. Some chord notes may not be pressed. */
 const isWrong = ( keyboardNotes, chordNotes ) =>
     keyboardNotes.some( keyboardNote => chordNotes.every( chordNote => keyboardNote % 12 !== chordNote % 12 ) );
 
+/** Checks if all the chord notes are in the keyboard notes. There may be extra keyboard notes. */
 const isRight = ( keyboardNotes, chordNotes ) =>
     chordNotes.every( chordNote => keyboardNotes.some( keyboardNote => chordNote % 12 === keyboardNote % 12 ) );
 
-const play = sound => {
-
-    const audio = new Audio( sounds[ sound ] );
-    audio.play();
-
-};
+const play = sound => new Audio( sounds[ sound ] ).play();
 
 export const MIDI = ( { chord, setChord } ) => {
 
     const [ configuration, setConfiguration ] = useContext( configurationContext );
-    const [ keyboard, setKeyboard ] = useState( [] );
+    const [ keyboard, setKeyboard ] = useState<number[]>( [] ); // Contains the midi values of the pressed keys.
 
+    // When a key is either pressed released...
     const onMIDIMessage = event => event.data[ 0 ] === 144 && setKeyboard( keyboard => {
 
-        const newKeyboard = event.data[ 2 ] > 0
+        const newKeyboard = event.data[ 2 ] > 0 // We add it the pressed key to keyboard.
             ? [ ...keyboard.filter( note => note !== event.data[ 1 ] ), event.data[ 1 ] ]
             : keyboard.filter( note => note !== event.data[ 1 ] );
 
         console.debug( newKeyboard );
 
-        if ( event.data[ 2 ] > 0 && configuration.sound )
+        if ( event.data[ 2 ] > 0 && configuration.sound ) // We play a sound if required.
             if ( isWrong( newKeyboard, chord.midiNotes ) )
                 play( "wrong" );
             else if ( isRight( newKeyboard, chord.midiNotes ) )
                 play( "right" );
-        if ( ( isWrong( newKeyboard, chord.midiNotes ) || isRight( newKeyboard, chord.midiNotes ) ) && configuration.time === "MIDI" && Array.isArray( configuration.session ) ) {
+        
+        // If the chord is either right or wrong, we add the result to configuration.session and move onto the next chord.
+        if ( ( isWrong( newKeyboard, chord.midiNotes ) || isRight( newKeyboard, chord.midiNotes ) ) && configuration.time === "MIDI" && configuration.activeSession ) {
             try {
                 const { lastChordIndex, ...newChord } = generateChord( configuration );
+                setKeyboard( [] );
                 setChord( newChord );
                 setConfiguration( configuration => ( { ...configuration, lastChordIndex, session: [ ...configuration.session, {
                     tonic: Object.values( configuration.tonic ).filter( isTrue => isTrue ).length,
@@ -62,18 +64,25 @@ export const MIDI = ( { chord, setChord } ) => {
 
     useEffect( () => {
         navigator.requestMIDIAccess().then( MIDIAccess => {
+
             MIDIAccess.inputs.forEach( input => input.onmidimessage = onMIDIMessage );
             MIDIAccess.onstatechange = connection => {
+
                 if ( connection.port.type === "input" && connection.port.state === "connected" )
                     connection.port.onmidimessage = onMIDIMessage;
+                
+                // When all MIDI devices are disconnected, we set the time configuration to manual.
                 if ( MIDIAccess.inputs.size === 0 )
                     setConfiguration( configuration => ( {
                         ...configuration,
                         time: configuration.time === "MIDI" ? "M" : configuration.time
                 } ) );
             };
+
         } );
+
     }, [ configuration ] );
+
     return <>
         <Button
             gridArea="sound"
@@ -85,7 +94,7 @@ export const MIDI = ( { chord, setChord } ) => {
         <div style={ { gridArea: "check" } }>
             <Icon type={ isWrong( keyboard, chord.midiNotes ) ? "error" : isRight( keyboard, chord.midiNotes ) ? "correct" : "circle" }/>
         </div><div className="center" style={ { gridArea: "score" } }>{ 
-            Array.isArray( configuration.session ) && configuration.session.length > 0 &&
+            configuration.activeSession && configuration.session.length > 0 &&
             ( configuration.session.filter( chord => chord.success ).length / configuration.session.length * 100 ).toFixed() + " %"
         }</div>
         <div style={ { gridArea: "statistics" } }>

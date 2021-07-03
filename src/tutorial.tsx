@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useContext, useRef } from "react";
 import { Tooltip } from "react-tippy";
-import { configurationContext } from "./configuration";
 import { Button } from "./button";
+import { Configuration, configurationContext } from "./configuration";
 import { Icon } from "./icon";
 
 const tutorial = {
@@ -16,7 +16,7 @@ export const TutorialMenu = ( { children } ) => {
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     return <Tooltip ref={ tooltip } trigger="click" interactive={ true } html={ <>
         <div className="grid">
-            { [ "fr", "en" ].map( language =>
+            { [ "fr", "en" ].map( ( language: Configuration[ "language" ] ) =>
             <Button
                 onClick={ () => setConfiguration( configuration => ( { ...configuration, language } ) ) }
                 selected={ configuration.language === language }

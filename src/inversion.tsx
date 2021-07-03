@@ -1,13 +1,14 @@
+import { Chord } from "@tonaljs/tonal";
 import * as React from "react";
 import { useRef } from "react";
 import { useContext } from "react";
 import { Tooltip } from "react-tippy";
-import { Stave } from "./stave";
-import { Chord } from "@tonaljs/tonal";
-import { configurationContext, initialConfiguration } from "./configuration";
 import { Button } from "./button";
 import { chords } from "./chordTable";
+import { configurationContext, initialConfiguration } from "./configuration";
+import { Stave } from "./stave";
 
+/** Some text does not appear on small screens. We truncate the overflowing characters this style. */
 const ellipsis = { overflow: "hidden", textOverflow: "ellipsis" };
 
 export const InversionMenu = ( { children } ) => {
@@ -20,7 +21,7 @@ export const InversionMenu = ( { children } ) => {
     >
         <Button
             gridArea="1 / 4 / span 1 / span 4"
-            onClick={ () => setConfiguration( { ...configuration, inversion: Object.fromEntries( Object.keys( configuration.inversion ).map( inversion => [ inversion, true ] ) ) } ) }
+            onClick={ () => setConfiguration( { ...configuration, inversion: { 0: true, 1: true, 2: true, 3: true } } ) }
         >
             ALL
         </Button>

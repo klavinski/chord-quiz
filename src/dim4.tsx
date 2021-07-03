@@ -1,11 +1,11 @@
+import { Chord }from "@tonaljs/tonal";
 import * as React from "react";
 import { useContext, useRef } from "react";
 import { Tooltip } from "react-tippy";
-import { Chord }from "@tonaljs/tonal";
-import { configurationContext } from "./configuration";
 import { Button } from "./button";
-import { Stave } from "./stave";
 import { chords } from "./chordTable";
+import { configurationContext } from "./configuration";
+import { Stave } from "./stave";
 
 export const Dim4Menu = ( { children } ) => {
 

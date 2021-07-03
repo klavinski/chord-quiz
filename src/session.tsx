@@ -1,51 +1,49 @@
+/** This file handles starting and stopping a session, saving its data, the timer, and generates a chord upon its depletion. */
+
+import { Storage } from "@capacitor/storage";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
-import { configurationContext, initialConfiguration } from "./configuration";
 import { Button } from "./button";
 import { generateChord } from "./chordGenerator";
-import { Storage } from "@capacitor/storage";
+import { configurationContext, initialConfiguration } from "./configuration";
 
 export const Session = ( { setChord } ) => {
 
     const [ configuration, setConfiguration ] = useContext( configurationContext );
-    const [ timeLeft, setTimeLeft ] = useState( configuration.time );
-    useEffect( () => {
+    const [ timeLeft, setTimeLeft ] = useState<number>( typeof configuration.time === "number" ? configuration.time : 0 );
 
-        setTimeLeft( configuration.time );
-        if ( Array.isArray( configuration.session ) && configuration.time !== "M" ) {
-
-            const timer = setInterval( () => setTimeLeft( timeLeft => {
-
-                if ( timeLeft === 0 ) {
-
-                    setConfiguration( configuration => {
-                        
-                        try {
-                            const { lastChordIndex, ...chord } = generateChord( configuration );
-                            setChord( chord );
-                            return { ...configuration, lastChordIndex };
-                        } catch( e ) {
-                            console.error( "Invalid chord configuration selected." );
-                            return configuration;
-                        }
-                    } );
-                    return configuration.time;
-
-                } else
-                    return timeLeft - .5;
+    useEffect( () => {        
+        
+        if ( configuration.activeSession && typeof configuration.time === "number" ) {
+            const timer = setInterval( () => setTimeLeft( timeLeft => {                
+                
+                setConfiguration( configuration => {
+                        if ( timeLeft === 0 )
+                            try {
+                                const { lastChordIndex, ...chord } = generateChord( configuration );
+                                setChord( chord );
+                                return { ...configuration, lastChordIndex };
+                            } catch( e ) {
+                                console.error( "Invalid chord configuration selected." );
+                            }
+                    return configuration;
+                } );
+                return timeLeft === 0 && typeof configuration.time === "number" ? configuration.time : timeLeft - .5;
+                
             } ), 500 );
-            return () => clearInterval( timer );
 
+            return () => clearInterval( timer );
         }
 
-    }, [ configuration ] );
+    }, [ configuration.time, configuration.activeSession ] );
 
     return <>
         <Button
             gridArea="start"
             onClick={ () => {
 
-                if ( Array.isArray( configuration.session ) ) {
+                // We initialise a session with an empty array.
+                if ( configuration.activeSession ) {
 
                     if ( configuration.session.length > 0 ) 
                         Storage.keys()
@@ -56,7 +54,7 @@ export const Session = ( { setChord } ) => {
 
                     setConfiguration( configuration => ( {
                         ...configuration,
-                        session: null,
+                        activeSession: false,
                         lastChordIndex: initialConfiguration.lastChordIndex
                     } ) );
 
@@ -64,16 +62,16 @@ export const Session = ( { setChord } ) => {
                     try {
                         const { lastChordIndex, ...newChord } = generateChord( configuration );
                         setChord( newChord );
-                        setConfiguration( configuration => ( { ...configuration, lastChordIndex, session: [] } ) );
+                        setConfiguration( configuration => ( { ...configuration, lastChordIndex, activeSession: true, session: [] } ) );
                     } catch( e ) {
                         console.error( "Invalid chord configuration selected." );
                     }
             } }
         >
-            { Array.isArray( configuration.session ) ? "STOP" : "START" }
+            { configuration.activeSession ? "STOP" : "START" }
         </Button>
         <Button
-            disabled={ configuration.time !== "M" || ! Array.isArray( configuration.session ) }
+            disabled={ configuration.time !== "M" || ! configuration.activeSession }
             gridArea="next"
             onClick={ () => {
                 try {

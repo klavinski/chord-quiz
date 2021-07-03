@@ -1,18 +1,18 @@
 import "./style.css";
 import * as React from "react";
 import { useContext, useState } from "react";
-import { initialConfiguration, configurationContext } from "./configuration";
+import { useWindowSize } from "react-use";
+import { configurationContext, initialConfiguration } from "./configuration";
 import { generateChord } from "./chordGenerator";
 import { Keyboard } from "./keyboard";
-import { Stave } from './stave';
 import { Menu } from "./menu";
-import { Session } from "./session";
 import { MIDI } from "./midi";
-import { useWindowSize } from "react-use";
+import { Session } from "./session";
+import { Stave } from './stave';
 
 export const App = () => {
 
-    const [ chord, setChord ] = useState( () => generateChord( initialConfiguration ) );
+    const [ chord, setChord ] = useState( () => generateChord( initialConfiguration ) ); // current chord on screen
     const [ configuration ] = useContext( configurationContext );
     const { width, height } = useWindowSize();
     return <div

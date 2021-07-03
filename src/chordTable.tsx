@@ -1,7 +1,11 @@
+/** This file contains the React components to display chord symbols.*/
+
 import * as React from "react";
+import { Tonic } from "./configuration";
 
-export const encode = notation => notation.replace( "#", "♯" ).replace( "b", "♭" );
+export const encode = ( notation: Tonic ) => notation.replace( "#", "♯" ).replace( "b", "♭" );
 
+/** Some chords have both upper and lower annotations. To achieve a proper display, we set the width of the first one to 0. */
 const noWidth = { display: "inline-block", width: 0 };
 
 export const major3 = {

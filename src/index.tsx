@@ -1,3 +1,5 @@
+/** This file is the entry point. It provides a universally-accessible configuration object. */
+
 import "./style.css";
 import * as React from "react";
 import { render } from "react-dom";

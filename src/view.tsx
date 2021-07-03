@@ -1,12 +1,12 @@
 import * as React from "react";
 import { useContext, useRef } from "react";
 import { Tooltip } from "react-tippy";
-import { configurationContext } from "./configuration";
-import { Button } from "./button";
-import { Stave } from "./stave";
-import { chords } from "./chordTable";
-import { Keyboard } from "./keyboard";
 import { useWindowSize } from "react-use";
+import { Button } from "./button";
+import { chords } from "./chordTable";
+import { configurationContext } from "./configuration";
+import { Keyboard } from "./keyboard";
+import { Stave } from "./stave";
 
 export const ViewMenu = ( { children } ) => {
 

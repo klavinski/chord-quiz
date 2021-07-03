@@ -1,12 +1,11 @@
-import * as React from "react";
-import { useRef } from "react";
-import { useContext } from "react";
-import { Tooltip } from "react-tippy";
 import { Chord }from "@tonaljs/tonal";
-import { configurationContext, initialConfiguration } from "./configuration";
+import * as React from "react";
+import { useContext, useRef } from "react";
+import { Tooltip } from "react-tippy";
 import { Button } from "./button";
-import { Stave } from "./stave";
 import { chords, minor4_1, minor4_2 } from "./chordTable";
+import { configurationContext, initialConfiguration } from "./configuration";
+import { Stave } from "./stave";
 
 export const Minor4Menu = ( { children } ) => {
 

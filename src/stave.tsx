@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useRef } from "react";
 import Vex from "vexflow";
 
-
 export const Stave = ( { chord, zoom }: { chord: string[], zoom?: number } ) => {
 
     const div = useRef<HTMLDivElement>();

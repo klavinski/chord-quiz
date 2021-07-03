@@ -1,14 +1,15 @@
 import { Storage } from "@capacitor/storage";
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
+import { useWindowSize } from "react-use";
 import { Tooltip as ReactTooltip } from "react-tippy";
 import { Bar, BarChart, Cell, ReferenceLine, Tooltip, XAxis, YAxis } from "recharts";
-import { Button } from "./button";
-import { Icon } from "./icon";
 import "regenerator-runtime/runtime";
+import { Button } from "./button";
 import { configurationContext } from "./configuration";
-import { useWindowSize } from "react-use";
+import { Icon } from "./icon";
 
+/** Colours for each type of configuration. */
 const colors = [
     "rgb( 204, 193, 218 )",
     "rgb(  96,  74, 123 )",
@@ -22,6 +23,7 @@ const colors = [
     "rgb( 149,  55,  53 )"
 ];
 
+/** Labels for each type of configuration. */
 const labels = [
     "1 note – Many 3 sounds chords – No inversion",
     "1 note – Many 3 sounds chords – Inversion",
@@ -43,8 +45,10 @@ export const StatisticsMenu = ( { children } ) => {
     const [ statistics, setStatistics ] = useState( { average: null, data: [] } );
     const { width, height } = useWindowSize();
     useEffect( () => { ( async () => {
+        // We get 10 session from the storage.
         const { keys } = await Storage.keys();
         const sessions = await Promise.all( keys.sort().slice( page * 10, page * 10 + 10 ).map( key => Storage.get( { key } ).then( ( { value } ) => JSON.parse( value ) ) ) );
+        // We combine them, anc compute statistics for each bar.
         const combinedChords = sessions.reduce( ( acc, cur ) => [ ...acc, ...cur ], [] );
         setStatistics( {
             average: combinedChords.length > 0 ? combinedChords.filter( ( { success } ) => success ).length / combinedChords.length * 100 : null,
