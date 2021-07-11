@@ -26,7 +26,7 @@ Dans le passé, j'avais déjà programmé une application composée essentiellem
 
 Comme l'application est relativement simple, j'ai opté pour une approche unidirectionnelle des données. Il existe un objet `configuration`, qui ne contient que des données (pas de méthodes), accessible en lecture et écriture de tout composant. Chaque composant peut avoir des dépendances, et est recalculé si l'une des dépendances change.
 
-![Arbre des composants](component tree.svg)
+![Arbre des composants](tree.svg)
 
 Voici un extrait de l'arbre des composants. S'il était plus profond, il pourrait il y avoir un problème de performances à cause de la quantité à recalculer.
 
