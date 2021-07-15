@@ -4,7 +4,9 @@ Ce document présente les différentes questions soulevées durant le stage.
 
 ## Choix de la technologie multi-plateformes
 
-J'ai de l'expérience en technologies du web, ce qui me dirige vers JavaScript/TypeScript. La technologie web multi-plateformes du début de la décennie était [Cordova](https://cordova.apache.org/), qui crée une vue du navigateur sans bord sur chaque plateforme. Elle est depuis remplacée par [Capacitor](https://capacitorjs.com/).
+J'ai de l'expérience en technologies du web, ce qui me dirige vers JavaScript/TypeScript. La technologie web multi-plateformes du début de la décennie était [Cordova](https://cordova.apache.org/), qui crée une vue du navigateur sans bord sur chaque plateforme. Elle est depuis remplacée par [Capacitor](https://capacitorjs.com/). Voici les [technologies web multi-plateformes avec leur satisfaction](https://2020.stateofjs.com/en-US/technologies/mobile-desktop/) :
+
+![Technologies web multi-plateformes](survey.svg)
 
 [React Native](https://reactnative.dev) attira aussi mon attention. Au lieu d'utiliser une vue web, il affiche des composants d'interface (texte, image, etc.) propres à chaque plateforme. Cela permet d'avoir de meilleures performances et une apparence native (par exemple, les boutons ressemblent à l'interface de la plateforme).
 
