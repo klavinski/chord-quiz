@@ -50,10 +50,10 @@ Au début du stage, j'avais prédit qu'en l'absence d'obstacle, le développemen
 * Traduire l'interface graphique en code React.
 * Ajuster le positionnement et l'apparence de tous les composants graphiques.
 
-Ce sont des activités simples mais laborieuses. La part liée à l'algorithmique ou l'architecture, où se manifeste la pertinence culturelle et intellectuele du développeur, est minime. Je tire les leçons suivantes :
+Ce sont des activités simples mais laborieuses. La part liée à l'algorithmique ou l'architecture, où se manifeste la pertinence culturelle et intellectuelle du développeur, est minime. Je tire les leçons suivantes :
 
 * Il vaut mieux sélectionner des technologies et bibliothèques populaires, quitte à devoir implémenter ou concéder certaines fonctionnalités. Autrement, il y a un grand risque de devoir déboguer du code inconnu sans aide, et sans savoir si cela sera ultimement fructueux.
 * Il faut éviter autant que possible les traductions (interface graphique vers code React, représentation d'accord vers notes MIDI...) car la traduction prend du temps et l'on peut perdre de l'information.
-* Utiliser pleinement une vue web plutôt qu'une interface native était un excellent choix. La fonctionnalité CSS grid permet le positionnement nominal et visuel, alors que React Native aurait requis de préciser la position et taille des composants en pixels.
+* Utiliser pleinement une vue web plutôt qu'une interface native était un excellent choix. La fonctionnalité CSS grid permet le positionnement nominal et visuel, alors que React Native aurait requis de préciser la position et taille des composants en pixels. Voici un exemple de CSS grid :
 
 ![Exemple de CSS grid](position.png)
