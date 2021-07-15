@@ -8,6 +8,7 @@ import { Keyboard } from "./keyboard";
 import { Menu } from "./menu";
 import { MIDI } from "./midi";
 import { Session } from "./session";
+import { Sound } from "./sound";
 import { Stave } from './stave';
 
 export const App = () => {
@@ -61,6 +62,7 @@ export const App = () => {
         </div>
         <div className="center" style={ { gridArea: "keyboard", display: configuration.showKeyboard ? "flex" : "none", marginLeft: width > height ? 0 : - width * .02 } }>
             <Keyboard chord={ chord.midiNotes } width={ width > height ? Math.min( width - Math.min( width, height ) * .52, ( height - Math.min( width, height ) * .4 ) * 825 / 355 ) : width }/>
+        <Sound notes={ chord.notes }/>
         </div>
     </div>;
 }

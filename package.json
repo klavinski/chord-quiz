@@ -16,6 +16,7 @@
     "@capacitor/core": "^3.0.0",
     "@capacitor/storage": "^1.0.2",
     "@tonaljs/tonal": "^4.6.0",
+    "@tonejs/piano": "^0.2.1",
     "inter-ui": "^3.18.1",
     "parcel-bundler": "^1.12.5",
     "react": "^17.0.2",
@@ -23,8 +24,10 @@
     "react-tippy": "^1.4.0",
     "react-use": "^17.2.4",
     "recharts": "^2.0.9",
+    "tone": "^14.7.77",
     "vexflow": "^3.0.9",
-    "web-midi-api": "^2.1.1"
+    "web-midi-api": "^2.1.1",
+    "webmidi": "^2.5.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^3.0.0-rc.4",
