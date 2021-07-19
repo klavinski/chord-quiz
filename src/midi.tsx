@@ -2,7 +2,7 @@
 
 import sounds from "../assets/*.ogg";
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "web-midi-api";
 import { Button } from "./button";
 import { generateChord } from "./chordGenerator";
@@ -26,6 +26,11 @@ export const MIDI = ( { chord, setChord } ) => {
     const [ configuration, setConfiguration ] = useContext( configurationContext );
     const [ keyboard, setKeyboard ] = useState<number[]>( [] ); // Contains the midi values of the pressed keys.
 
+    // To access the current notes and configuration in closures
+    const data = useRef( { notes: chord.midiNotes, configuration: configuration } );
+    useEffect( () => { data.current = { ...data.current, notes: chord.midiNotes }; }, [ chord.midiNotes ] );
+    useEffect( () => { data.current = { ...data.current, configuration: configuration }; }, [ configuration ] );
+
     // When a key is either pressed released...
     const onMIDIMessage = event => event.data[ 0 ] === 144 && setKeyboard( keyboard => {
 
@@ -35,24 +40,25 @@ export const MIDI = ( { chord, setChord } ) => {
 
         console.debug( newKeyboard );
 
-        if ( event.data[ 2 ] > 0 && configuration.sound ) // We play a sound if required.
-            if ( isWrong( newKeyboard, chord.midiNotes ) )
+        if ( configuration.sound ) // We play a sound if required.
+            if ( event.data[ 2 ] > 0 && isWrong( [ event.data[ 1 ] ], data.current.notes ) )
                 play( "wrong" );
-            else if ( isRight( newKeyboard, chord.midiNotes ) )
+            else if ( ! isWrong( newKeyboard, data.current.notes ) && isRight( newKeyboard, data.current.notes ) )
                 play( "right" );
         
         // If the chord is either right or wrong, we add the result to configuration.session and move onto the next chord.
-        if ( ( isWrong( newKeyboard, chord.midiNotes ) || isRight( newKeyboard, chord.midiNotes ) ) && configuration.time === "MIDI" && configuration.activeSession ) {
+        if ( ( isWrong( newKeyboard, data.current.notes ) || isRight( newKeyboard, data.current.notes ) ) && data.current.configuration.time === "MIDI" && data.current.configuration.activeSession ) {
             try {
-                const { lastChordIndex, ...newChord } = generateChord( configuration );
+                const { lastChordIndex, ...newChord } = generateChord( data.current.configuration );
                 setKeyboard( [] );
+                console.log( newChord );
                 setChord( newChord );
                 setConfiguration( configuration => ( { ...configuration, lastChordIndex, session: [ ...configuration.session, {
                     tonic: Object.values( configuration.tonic ).filter( isTrue => isTrue ).length,
                     chord3: Object.entries( configuration.type ).filter( ( [ key, value ] ) => ( key in major3 || key in minor3 ) && value ).length,
                     chord4: Object.entries( configuration.type ).filter( ( [ key, value ] ) => ( key in major4_1 || key in major4_2 || key in minor4_1 || key in minor4_2 ) && value ).length,
                     inversion: configuration.inversion[ 1 ] || configuration.inversion[ 2 ] || configuration.inversion[ 3 ],
-                    success: isRight( newKeyboard, chord.midiNotes )
+                    success: isRight( newKeyboard, data.current.notes )
                 } ] } ) );
             } catch( e ) {
                 console.error( "Invalid chord configuration selected." );
@@ -81,7 +87,7 @@ export const MIDI = ( { chord, setChord } ) => {
 
         } );
 
-    }, [ configuration ] );
+    }, [] );
 
     return <>
         <Button
