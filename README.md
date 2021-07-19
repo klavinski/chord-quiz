@@ -4,7 +4,7 @@ Cross-platform app to learn chords with MIDI input. [Demo](https://chord-quiz.ne
 
 ![Screenshot](./screenshot.png)
 
-This is a one-month intership project. Original idea from François Faisant. Code by Kamil Szczerba. With Emmanuel Chailloux and Loïc Sylvestre's supervision.
+This is a one-month internship project. Original idea from François Faisant. Code by Kamil Szczerba. With Emmanuel Chailloux and Loïc Sylvestre's supervision.
 
 ## Setting up the environment
 

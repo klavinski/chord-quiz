@@ -42,6 +42,15 @@ Pour l'inversion, je calculais la racine et l'indiquais à la bibliothèque musi
 
 ![C# avant et après correction](enharmonics.svg)
 
+Le format le plus pertinent de l'accord est passé à chaque composant d'interface. Par exemple, le piano reçoit les notes numériques, et affiche les images une par une pour chaque note du piano. À côté, l'encodage reçoit la notation symbolique de l'accord.
+
+## Extension
+
+Un interlocuteur de M. Faisant proposa d'ajouter le son de l'accord. C'était l'occasion de juger l'extensibilité de l'architecture. Elle s'y prêta très bien : le résultat est un composant React dans `src/sound.tsx`, qui s'insère modulairement dans l'architecture d'`app.tsx`. Cela est possible grâce à :
+
+* la polyvalence des composants React. Plus que des composants d'interface, ils peuvent représenter des fonctionnalités.
+* l'architecture arborescente des données qui indique exactement où placer le module pour lui donner la portée nécessaire est suffisante.
+
 ## Rétrospective
 
 Au début du stage, j'avais prédit qu'en l'absence d'obstacle, le développement durerait une semaine. Il s'est étendu sur le mois. Le temps fut principalement consacré à :
@@ -54,6 +63,7 @@ Ce sont des activités simples mais laborieuses. La part liée à l'algorithmiqu
 
 * Il vaut mieux sélectionner des technologies et bibliothèques populaires, quitte à devoir implémenter ou concéder certaines fonctionnalités. Autrement, il y a un grand risque de devoir déboguer du code inconnu sans aide, et sans savoir si cela sera ultimement fructueux.
 * Il faut éviter autant que possible les traductions (interface graphique vers code React, représentation d'accord vers notes MIDI...) car la traduction prend du temps et l'on peut perdre de l'information.
+* Le problème technique principal rencontré était la transmission de l'état. Certains composants gardent leur état dans des fermetures. Si je réécrivais l'application, j'investirai pleinement dans un accès synchrone et arborescent de l'état.
 * Utiliser pleinement une vue web plutôt qu'une interface native était un excellent choix. La fonctionnalité CSS grid permet le positionnement nominal et visuel, alors que React Native aurait requis de préciser la position et taille des composants en pixels. Voici un exemple de CSS grid :
 
 ![Exemple de CSS grid](position.png)
